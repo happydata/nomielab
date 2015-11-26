@@ -1,4 +1,4 @@
-#Nomie Lab
+#Nomie Lab  !!EXPERIMENTAL NOT READY FOR PUBLIC CONSUMPTION.
 
 Works with Nomie 1.1 or later.
 
@@ -29,7 +29,7 @@ gulp serve
 Sass files are automatically compiled when you run `gulp serve`.
 
 - /sass
-	- **_variables.scss** - overide any Twitter Bootstrap variables here
+	- **_variables.scss** - override any Twitter Bootstrap variables here
 	- **_app.scss** - put one-off styles for the app here
 	- **_components.scss** - keep any reusable components here (like buttons and whatnot)
 	- **app.scss** - this file pulls it all together, you should leave this file alone.

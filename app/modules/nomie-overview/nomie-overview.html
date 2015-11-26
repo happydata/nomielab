@@ -1,0 +1,110 @@
+<div class="navbar navbar-default">
+  <p class="navbar-text text-md padding-xs ">
+    Data Overview
+  </p>
+</div>
+<section class="bg-faded-5 padding-xl">
+  <div class="row">
+    <div class="col-xs-4">
+      <div class="block padding-lg box-shadow bg-white hairline-all">
+        <i class="ion-ios-world-outline pull-left text-xxl margin-md-right text-faded hidden-xs"></i>
+        <h2 class="margin-off text-sm text-uppercase text-bold">Events</h2>
+        <div class="text-xl text-thin">{{vm.overview.events.count | number}}</div>
+      </div>
+    </div>
+    <div class="col-xs-4">
+      <div class="block padding-lg box-shadow bg-white hairline-all">
+        <i class="ion-ios-paper-outline pull-left text-xxl margin-md-right text-faded hidden-xs"></i>
+        <h2 class="margin-off text-sm text-uppercase margin-sm-top text-bold">Notes</h2>
+        <div class="text-xl text-thin">{{vm.overview.notes.count | number}}</div>
+      </div>
+    </div>
+    <div class="col-xs-4">
+      <div class="block padding-lg box-shadow bg-white hairline-all">
+        <i class="ion-ios-keypad-outline pull-left text-xxl margin-md-right text-faded hidden-xs"></i>
+        <h2 class="margin-off text-sm text-uppercase text-bold">Trackers</h2>
+        <div class="text-xl text-thin">{{vm.overview.trackers.count | number}}</div>
+      </div>
+    </div>
+  </div>
+
+
+  <!-- Charts -->
+  <div class="row margin-xl-top">
+    <div class="col-xs-4">
+      <div class="bg-white padding-md hairline-all box-shadow">
+        <h2 class="text-md text-uppercase padding-off margin-off-top  text-faded">Positive/Negative</h2>
+        <div id="overview-chart-pie"></div>
+      </div>
+
+    </div>
+    <div class="col-xs-8">
+      <div class="bg-white padding-md hairline-all box-shadow">
+        <h2 class="text-md text-uppercase padding-off margin-off-top  text-faded">Time of Day</h2>
+        <div id="overview-dow-pie"></div>
+      </div>
+
+    </div>
+  </div>
+
+
+
+</section>
+
+
+<section class="padding-xl">
+  <h2>Events</h2>
+  <div class="row">
+    <div class="col-xs-3">
+      <div class="block padding-xl text-center bg-white hairline-all">
+        <div class="text-xl text-thin">{{vm.analysis.events.positive | number}}</div>
+        <h2 class="margin-off text-sm text-uppercase text-bold">Positive</h2>
+      </div>
+    </div>
+    <div class="col-xs-3">
+      <div class="block padding-xl text-center bg-white hairline-all">
+        <div class="text-xl text-thin">{{vm.analysis.events.negative | number}}</div>
+        <h2 class="margin-off text-sm text-uppercase text-bold">Negative</h2>
+      </div>
+    </div>
+    <div class="col-xs-3">
+      <div class="block padding-xl text-center bg-white hairline-all">
+        <div class="text-xl text-thin">{{vm.analysis.events.neutral | number}}</div>
+        <h2 class="margin-off text-sm text-uppercase text-bold">Neutral</h2>
+      </div>
+    </div>
+    <div class="col-xs-3">
+      <div class="block padding-xl text-center bg-white hairline-all">
+        <div class="text-xl text-thin">{{vm.analysis.events.total | number}}</div>
+        <h2 class="margin-off text-sm text-uppercase text-bold">Total</h2>
+      </div>
+    </div>
+  </div>
+  <h2>Notes</h2>
+  <div class="row">
+    <div class="col-xs-3">
+      <div class="block padding-xl text-center bg-white hairline-all">
+        <div class="text-xl text-thin">{{vm.analysis.notes.positive | number}}</div>
+        <h2 class="margin-off text-sm text-uppercase text-bold">Positive</h2>
+      </div>
+    </div>
+    <div class="col-xs-3">
+      <div class="block padding-xl text-center bg-white hairline-all">
+        <div class="text-xl text-thin">{{vm.analysis.notes.negative | number}}</div>
+        <h2 class="margin-off text-sm text-uppercase text-bold">Negative</h2>
+      </div>
+    </div>
+    <div class="col-xs-3">
+      <div class="block padding-xl text-center bg-white hairline-all">
+        <div class="text-xl text-thin">{{vm.analysis.notes.neutral | number}}</div>
+        <h2 class="margin-off text-sm text-uppercase text-bold">Neutral</h2>
+      </div>
+    </div>
+    <div class="col-xs-3">
+      <div class="block padding-xl text-center bg-white hairline-all">
+        <div class="text-xl text-thin">{{vm.analysis.notes.total | number}}</div>
+        <h2 class="margin-off text-sm text-uppercase text-bold">Total</h2>
+      </div>
+    </div>
+  </div>
+</section>

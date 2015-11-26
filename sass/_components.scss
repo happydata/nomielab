@@ -1,0 +1,45 @@
+.has_fixed_header {
+	padding-top: $navbar-height;
+}
+.navbar-default {
+  box-shadow:0 2px 4px rgba(0, 0, 0, 0.15);
+  background-color: #ffffff;
+  color: #2c3e50;
+  border-bottom: 1px solid #E5E5E5;
+}
+
+
+.text-secondary {
+	color : $secondary-color;
+}
+.text-primary {
+	color : $primary-color;
+}
+
+.bg-white {
+  background:#FFFFFF;
+}
+
+.panel-secondary {
+	@include panel-variant($secondary-color, #FFF, $secondary-color, $secondary-color);
+
+}
+.panel-secondary-light {
+	@include panel-variant(lighten($secondary-color, 50%), $secondary-color, lighten($secondary-color, 50%), lighten($secondary-color, 50%));
+	.panel-heading {
+	}
+	.panel-body {
+		padding-top:0px;
+		background-color:lighten($secondary-color, 50%);
+	}
+}
+
+.panel-primary-light {
+	@include panel-variant(lighten($primary-color, 50%), $primary-color, lighten($primary-color, 50%), lighten($primary-color, 50%));
+	.panel-heading {
+	}
+	.panel-body {
+		padding-top:0px;
+		background-color:lighten($primary-color, 50%);
+	}
+}

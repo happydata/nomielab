@@ -1,0 +1,87 @@
+<style type="text/css">
+  .icon-container {
+    position: absolute;
+    top: 90px;
+    right : 20px;
+    width : 100px;
+    height:100px;
+    line-height:10px;
+    border-radius:50px;
+    background-color:rgba(0,0,0,.2);
+    color:#FFF;
+    z-index:100;
+    text-align: center;
+  }
+  .icon-container i {
+    font-size:30px;
+    line-height:100px;
+  }
+  .score {
+    font-size:33px;
+  }
+  .score.positive {
+    color : #33990f
+  }
+  .score.negative {
+    color : #d75c5c;
+  }
+  .mapme .map-container {
+    position:absolute;
+    bottom:0;
+    left:0;
+    right:0;
+    top:55px;
+  }
+  .mapme .currentEvent {
+      position:absolute;
+      top:90px;
+      text-align: right;
+      right:150px;
+      z-index:100;
+    }
+  .mapme {
+    position:absolute;
+    top:0px;
+    bottom:0px;
+    left:0px;
+    right:0px;
+  }
+
+</style>
+
+<div class="mapme">
+  <div class="icon-container" style="background-color:{{vm.mapme.trackers.data[vm.event.parent].color}}">
+    <i class="{{vm.mapme.trackers.data[vm.event.parent].icon}}"></i>
+  </div>
+  <div class="navbar navbar-default padding-sm-bottom">
+    <div class="row padding-sm-top margin-off">
+      <div class="col-xs-1">
+        <button class="btn btn-primary btn-block" ng-click="vm.play()" ng-show="!vm.playing" ><i class="fa fa-play"></i></button>
+        <button class="btn btn-primary btn-block" ng-click="vm.pause()" ng-show="vm.playing"><i class="fa fa-pause"></i></button>
+      </div>
+      <div class="col-xs-9 padding-sm-top">
+        <input type="range" ng-model="vm.rangePosition" value="{{vm.rangePosition}}" step="1" max="vm.max" ng-change="vm.changeTime()" />
+      </div>
+      <div class="col-xs-2 padding-xs-right">
+        <div class="btn-group" style="width:100%">
+          <button class="btn btn-primary" style="width:49%" ng-click="vm.previousEvent()" ><i class="fa fa-backward"></i></button>
+          <button class="btn btn-primary" style="width:49%" ng-click="vm.nextEvent()" ><i class="fa fa-forward"></i></button>
+        </div>
+      </div>
+    </div>
+
+
+  </div>
+  <div class="currentEvent">
+    <h1>
+      <div class="text-md">{{vm.mapme.trackers.data[vm.event.parent].label}}</div>
+      {{vm.event.timeFormatted}}<br />
+      <!-- <span class="score positive" >+{{vm.positiveScore}} </span>
+      <span class="score negative" >{{vm.negativeScore}} </span>
+      <span class="score" ng-class="{'negative' : vm.runningScore < 0, 'positive' : vm.runningScore > 0 }">= {{vm.runningScore}} </span>
+    </h1> -->
+  </div>
+  <section class="map-container" id="mapme-map">
+
+  </section>
+</div>

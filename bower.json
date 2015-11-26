@@ -1,0 +1,40 @@
+{
+  "name": "a-sassy-boot",
+  "version": "0.0.1",
+  "description": "Angular Bootstrap-Sass Starter Template",
+  "main": "README.md",
+  "keywords": [
+    "angular",
+    "bootstrap",
+    "sass",
+    "template",
+    "starter"
+  ],
+  "authors": [
+    "Brandon Corbin <brandon@happydata.org>"
+  ],
+  "license": "MIT",
+  "homepage": "http://icorbin.com",
+  "ignore": [
+    "**/.*",
+    "node_modules",
+    "bower_components",
+    "test",
+    "tests"
+  ],
+  "dependencies": {
+    "angular": "~1.4.3",
+    "bootstrap-sass": "~3.3.5",
+    "bootstrap-spacing": "*",
+    "angular-moment": "~0.10.2",
+    "angular-route": "~1.4.3",
+    "localforage": "~1.3.0",
+    "pouchdb": "~5.1.0",
+    "notie.js": "https://github.com/jaredreich/notie.js.git",
+    "toastr": "~2.1.2",
+    "moment": "~2.10.6",
+    "JsonQuery": "https://github.com/jiren/JsonQuery.git",
+    "jstat": "~1.4.7",
+    "c3": "~0.4.10"
+  }
+}

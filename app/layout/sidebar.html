@@ -1,0 +1,13 @@
+<div class="sidebar" id="sidebar">
+  <div class="list-group" ng-hide="!$root.currentDatasource">
+    <a href="/#/overview" class="list-group-item" ng-class="$root.getClass('/overview')">
+      <i class="ion-ios-analytics-outline text-faded margin-sm-right"></i> Data Overview
+    </a>
+    <a href="/#/mapme" class="list-group-item" ng-class="$root.getClass('/mapme')">
+      <i class="ion-map text-faded margin-sm-right"></i> Map Me
+    </a>
+  </div>
+  <div class="padding-lg text-inverse text-center text-lg text-thin" ng-show="!$root.currentDatasource">
+    Select a datasource to get started.
+  </div>
+</div><!-- /.end sidebar -->

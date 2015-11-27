@@ -1,9 +1,9 @@
 @import '_variables.scss';
 
-@import "./bower-lib/bootstrap-sass/assets/stylesheets/_bootstrap-sprockets.scss";
-@import "./bower-lib/bootstrap-sass/assets/stylesheets/_bootstrap.scss";
+@import "./src/bower-lib/bootstrap-sass/assets/stylesheets/_bootstrap-sprockets.scss";
+@import "./src/bower-lib/bootstrap-sass/assets/stylesheets/_bootstrap.scss";
 /*  @import "./bower-lib/bootstrap-sass/assets/stylesheets/bootstrap/_theme.scss"; */
-@import "./bower-lib/bootstrap-spacing/bootstrap-spacing.scss";
+@import "./src/bower-lib/bootstrap-spacing/bootstrap-spacing.scss";
 
 @import '_components.scss';
 @import '_layout.scss';

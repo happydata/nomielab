@@ -7337,8 +7337,15 @@ button.close {
 .text-primary {
   color: #429bca; }
 
+.text-white {
+  color: #FFF; }
+
 .bg-white {
   background: #FFFFFF; }
+
+.bg-primary {
+  background-color: #429bca;
+  color: #FFF; }
 
 .navbar-header {
   font-size: 14px;

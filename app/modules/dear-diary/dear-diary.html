@@ -43,7 +43,6 @@
     top:0;
     bottom:0;
     left:0;
-    border-right:solid 1px #EEE;
     background:#FFF;
     overflow:scroll;
   }
@@ -72,11 +71,11 @@
 
   <!-- Module Header -->
   <div class="module-header navbar navbar-default">
-      <div class="navbar-header">
+      <div class="navbar-header hairline-right">
         <div class="title navbar-text">Dear Diary</div>
       </div>
-      <ul class="nav navbar-nav pull-right">
-          <li ng-show="vm.note">
+      <ul class="nav navbar-nav">
+          <li>
             <a href class="" ng-click="vm.note=null">View Tags</a>
           </li>
         </ul>
@@ -86,10 +85,11 @@
   <!-- Module Main Content -->
   <div class="main-content">
     <div class="diary-sidebar">
-      <div class="navbar navbar-default">
+      <div class="navbar navbar-default bg-primary hairline-off">
         <div class="padding-sm" role="search">
           <div class="">
-              <input type="text" ng-model="vm.searchTerm" class="input-sm form-control rounded" placeholder="Search" name="srch-term" id="srch-term">
+              <input type="text" ng-model="vm.searchTerm" class="hairline-off bg-faded-inverse-20 text-white input-sm form-control rounded" placeholder="" name="srch-term" id="srch-term">
+              <i class="ion-ios-search" style="position:absolute; top:15px; right:25px;"></i>
           </div>
         </div>
       </div>
@@ -105,10 +105,11 @@
               ng-class="{ 'active' : vm.note == note }">
               <i class="ion-ios-arrow-thin-down text-negative text-xl pull-right margin-lg-left" ng-show="note.charge<0"></i>
               <i class="ion-ios-arrow-thin-up text-positive text-xl pull-right margin-lg-left" ng-show="note.charge>0"></i>
-              <h4 class="list-group-item-heading text-faded text-sm text-uppercase">{{note.time | amDateFormat:'dddd, MMMM Do YYYY, h:mm:ss a'}}</h4>
-            <p class="list-group-item-text">
+
+            <p class="list-group-item-text margin-sm-top">
               {{trim(note.value,50)}}
             </p>
+            <h4 class="text-bold list-group-item-heading text-faded text-sm text-uppercase">{{note.time | amDateFormat:'dddd, MMMM Do YYYY, h:mm:ss a'}}</h4>
 
           </li>
         </ul>
@@ -116,9 +117,9 @@
     </div>
     <div class="diary-content-view">
 
-      <div id="note-navbar" class="navbar navbar-default"  ng-show="vm.note">
+      <div id="note-navbar" class="navbar navbar-default-inverse bg-primary"  ng-show="vm.note">
           <div class="navbar-header">
-            <div class="title navbar-text">Note</div>
+            <div class="navbar-text text-white">{{vm.note.time | amDateFormat:'dddd, MMM Do YYYY  h:mma'}}</div>
           </div>
           <ul class="nav navbar-nav navbar-right padding-md-right">
             <li><span class="navbar-text">SHARE</span></li>
@@ -129,7 +130,6 @@
       <div class="scroll-pane has-header bg-faded-5" id="note-view" ng-show="vm.note">
         <div class="bg-white box-shadow hairline-all margin-xl">
           <div class="padding-xl">
-            <div class="text-sm text-faded text-uppercase ">{{vm.note.time | amDateFormat:'dddd, MMMM Do YYYY, h:mm:ss a'}}</div>
             <div class="text-lg">{{vm.note.value}}</div>
           </div>
           <div id="note-map" class="map-container min-height-md" ng-show="vm.mapVisible">
@@ -139,22 +139,58 @@
 
       </div><!--/#note-view -->
 
-      <div id="tag-navbar" class="navbar navbar-default"  ng-show="!vm.note">
-          <div class="navbar-header">
-            <div class="title navbar-text">My Tags</div>
+      <div id="tag-navbar" class=""  ng-show="!vm.note">
+        <div  class="list-group-item row bg-primary text-white" style="line-height:30px;"> <!-- i'm a bastard -->
+          <div class="col-sm-2 text-white"
+               ng-click="vm.setTagOrderBy('name')"
+               ng-class="{'text-bold' : tagOrderBy == '-name' || tagOrderBy == 'name'}">
+            Hashtag
+            <i class="icon ion-chevron-down" ng-show="tagOrderBy == '-name'"></i>
+            <i class="icon ion-chevron-up" ng-show="tagOrderBy == 'name'"></i>
           </div>
-          <ul class="nav navbar-nav navbar-right padding-md-right">
-            <li><span class="navbar-text">ORDER BY</span></li>
-            <li><a href ng-click="tagOrderBy='-count'">COUNT</a></li>
-            <li><a href ng-click="tagOrderBy='-name'">A-Z</a></li>
-          </ul>
+          <div class="col-sm-2 text-white"
+               ng-click="vm.setTagOrderBy('charge')"
+               ng-class="{'text-bold' : tagOrderBy == '-charge' || tagOrderBy == 'charge'}">
+            Charge
+            <i class="icon ion-chevron-down" ng-show="tagOrderBy == '-charge'"></i>
+            <i class="icon ion-chevron-up" ng-show="tagOrderBy == 'charge'"></i>
+          </div>
+          <div class="col-sm-6 text-white"
+               ng-click="vm.setTagOrderBy('count')"
+               ng-class="{'text-bold' : tagOrderBy == '-count' || tagOrderBy == 'count'}">
+            <!-- Should be a percentage -->
+            Usage
+            <i class="icon ion-chevron-down" ng-show="tagOrderBy == '-count'"></i>
+            <i class="icon ion-chevron-up" ng-show="tagOrderBy == 'count'"></i>
+          </div>
+
+          <div class="col-sm-2">
+            <span class="pull-right text-white" ng-click="tagOrderBy='-count'" ng-class="{'text-bold' : tagOrderBy == '-count'}">Count</span>
+          </div>
+        </div>
       </div>
 
       <div id="tag-view" class="scroll-pane has-header bg-faded-5" ng-show="!vm.note">
-        <div class="padding-lg">
-          <a href class="tag  rounded hairline-all pull-left bg-white padding-xs-top padding-xs-bottom padding-xs-right padding-md-left margin-xs"
+        <div class="list-group">
+
+          <a href class="list-group-item row bg-white clearfix  hairline-bottom"
           ng-repeat="tag in vm.tags | orderBy : tagOrderBy " ng-click="vm.searchTerm = tag.name">
-            {{tag.name}} <span class="badge bg-faded-5 text-thin text-faded-80 margin-sm-left">{{tag.count}}</span>
+            <div class="col-sm-2 hairline-left">
+              {{tag.name}}
+            </div>
+            <div class="col-sm-2">
+              {{tag.charge}}
+            </div>
+            <div class="col-sm-6">
+              <!-- Should be a percentage -->
+              <div class="rounded bg-faded-60" style="width:{{tag.count}}px">
+                  &nbsp;
+              </div>
+            </div>
+
+            <div class="col-sm-2">
+              <span class="text-md pull-right">{{tag.count}}</span>
+            </div>
           </a>
           <div class="clear clearfix"></div>
         </div>

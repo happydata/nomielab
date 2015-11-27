@@ -23,9 +23,17 @@
 .text-primary {
 	color : $primary-color;
 }
+.text-white {
+  color:#FFF;
+}
 
 .bg-white {
   background:#FFFFFF;
+}
+
+.bg-primary {
+  background-color:$primary-color;
+  color:#FFF;
 }
 
 .navbar-header {

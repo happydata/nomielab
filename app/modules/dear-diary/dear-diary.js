@@ -64,6 +64,32 @@ NomieLabApp
       });
     }
 
+    $scope.vm.setTagOrderBy = function(name) {
+      $timeout(function() {
+        if(name=="charge") {
+          if($scope.tagOrderBy=="-charge") {
+            $scope.tagOrderBy = "charge";
+          } else {
+            $scope.tagOrderBy = "-charge";
+          }
+        } else if(name=="name") {
+          if($scope.tagOrderBy=="-name") {
+            $scope.tagOrderBy = "name";
+          } else {
+            $scope.tagOrderBy = "-name";
+          }
+        } else if(name=="count") {
+          if($scope.tagOrderBy=="-count") {
+            $scope.tagOrderBy = "count";
+          } else {
+            $scope.tagOrderBy = "-count";
+          }
+        }
+      });
+    }
+
+
+    $scope.tagOrderBy = "-count";
     $scope.vm.showMap = function(note) {
       var lat = note.geo[0];
       var lon = note.geo[1];
@@ -137,10 +163,12 @@ NomieLabApp
         for(var t in tags) {
           if(tagMap.hasOwnProperty(tags[t])) {
             tagMap[tags[t]].count++;
+            tagMap[tags[t]].charge=tagMap[tags[t]].charge+notes[i].charge;
           } else {
             tagMap[tags[t]] = {
               count : 1,
-              name : tags[t]
+              name : tags[t],
+              charge : notes[i].charge
             };
           }
         }

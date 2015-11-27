@@ -1,5 +1,5 @@
 var CorbinGeneral = function(datapack) {
-  console.log("CorbinGeneral Analysis Starts", datapack);
+  //console.log("CorbinGeneral Analysis Starts", datapack);
   var pub = {};
   var jq = {
     notes : null,
@@ -49,14 +49,14 @@ var CorbinGeneral = function(datapack) {
   }
 
   pub.init = function() {
-    console.log("Init Corbin General");
+    //console.log("Init Corbin General");
     jq.notes = JsonQuery(datapack.notes);
     jq.trackers = JsonQuery(datapack.trackers);
     jq.events = JsonQuery(datapack.events);
     pub.processEvents();
     pub.processNotes();
     pub.processTrackers();
-    console.log(jq.events, datapack.events);
+    //console.log(jq.events, datapack.events);
     return r;
   };
 
@@ -101,8 +101,8 @@ var CorbinGeneral = function(datapack) {
   }
 
   pub.trackerAnalysis = function(tracker) {
-      console.log('|=====================================================|');
-      console.log('|====  Tracker Analysis Starts Now for '+tracker.label+' ===|');
+      //console.log('|=====================================================|');
+      //console.log('|====  Tracker Analysis Starts Now for '+tracker.label+' ===|');
       var dayLog = {};
       var monthLog = {};
       var stats = {
@@ -114,10 +114,10 @@ var CorbinGeneral = function(datapack) {
         byHour : {0:0,1:0,2:0,3:0,4:0,5:0,6:0,7:0,8:0,9:0,10:0,11:0,12:0,13:0,14:0,15:0,16:0,17:0,18:0,19:0,20:0,21:0,22:0,23:0},
         byDay : { 'Sun' : 0, 'Mon' : 0, 'Tue' : 0, 'Wed' : 0, 'Thu' : 0, 'Fri' : 0, 'Sat' : 0 }
       };
-      //console.log(jq);
+      ////console.log(jq);
 
       var events = jq.events.where({'parent' : tracker._id}).exec();
-      console.log("Events for "+tracker.label, events);
+      //console.log("Events for "+tracker.label, events);
 
       for(var e in events) {
         var event = events[e];

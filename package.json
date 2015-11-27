@@ -3,6 +3,7 @@
   "version": "0.0.1",
   "description": "An interface for Nomie Data",
   "main": "src/app/app.js",
+  "respository" : "https://github.com/happydata/nomelab.git",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
   },

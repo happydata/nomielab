@@ -14,16 +14,38 @@ angular
 	.controller('BaseController', ['$scope', '$rootScope', '$timeout', 'BaseService', '$location',
 	function ($scope, $rootScope, $timeout, BaseService, $location) {
 
-		$scope.vm = {};
-    $scope.vm.newDatasource = BaseService.datasourceStub();
+		$rootScope.vm = {};
+    $rootScope.newDatasource = BaseService.datasourceStub();
 
+    // Datasource Setup and Saving
     $rootScope.addDatasource = function() {
       $('#add-datasource-modal').slideDown();
     }
     $rootScope.cancelNewDatasource = function() {
       $('#add-datasource-modal').slideUp();
     }
+    $rootScope.selectDatasource = BaseService.selectDatasource;
 
+    $rootScope.saveDatasource = function() {
+      console.log("######## VM.SAVEDATASOURCE() ########");
+      $timeout(function() {
+        BaseService.saveDatasource($rootScope.newDatasource, function(err, data) {
+          if(err===null) {
+            NomieLab.notify.success("Datasource Successfully Saved");
+          } else {
+            NomieLab.notify.error("Adding Datasource Failed. Reason: "+err.message);
+          }
+        });
+      });
+    } // $scope.vm.saveDatasource()
+
+    /**
+     * Checks to see if the path is the current one.
+     * If it is, it will return an active class.
+     * <a href="#/home" ng-class="getClass('/home')">
+     * @param  {string} path url path
+     * @return {string}      active or ''
+     */
     $rootScope.getClass = function (path) {
       if ($location.path().substr(0, path.length) === path) {
         return 'active';
@@ -32,47 +54,44 @@ angular
       }
     }
 
-    $scope.vm.saveDatasource = function() {
-      console.log("######## VM.SAVEDATASOURCE() ########");
-      $timeout(function() {
-        BaseService.saveDatasource($scope.vm.newDatasource, function(err, data) {
-          if(err===null) {
-            NomieLab.notify.success("Datasource Successfully Saved");
-          } else {
-            alert("Adding Datasource Failed. Reason: "+err.message);
-          }
-        });
-      });
-    }
-
 	} // end main Base controller function
 ]);
 /**
  * Base Service
- * @memberof Base
- * @namespace BaseService
+ * @ngdoc service
+ * @name BaseService
+ * @description
+ * 	Handles initial setup of the Nomie Lab Enviornment
  */
 angular
 	.module('BaseModule')
 	.service('BaseService', [ '$rootScope', '$timeout',
 	function ($rootScope, $timeout) {
-    console.log("The Lab is Booting");
 		var self = this;
 
-    $timeout(function() {
-      $rootScope.datasources = NomieLab.datasources.getAll();
-      console.log("Datasource", $rootScope.datasources);
-      if(NomieLab.storage.get('currentDatasource')) {
-        NomieLab.currentDatasource = new NomieLabDatasource(NomieLab.storage.get('currentDatasource'));
-        $rootScope.currentDatasource = NomieLab.currentDatasource;
-        console.log("Current Datasource Auto Selected", $rootScope.currentDatasource);
-      } else {
-        NomieLab.currentDatasource = null;
-      }
+    /**
+     * Initializes the BaseService
+     * @return {object}  BaseService
+     */
+    self.init = function() {
+      $timeout(function() {
+        $rootScope.datasources = NomieLab.datasources.getAll();
+        if(NomieLab.storage.get('currentDatasource')) {
+          NomieLab.currentDatasource = new NomieLabDatasource(NomieLab.storage.get('currentDatasource'));
+          $rootScope.currentDatasource = NomieLab.currentDatasource;
+        } else {
+          NomieLab.currentDatasource = null;
+        }
+      },100);
+      return self;
+    }();
 
-    },100);
-
-    $rootScope.selectDatasource = function(datasource) {
+    /**
+     * Sets a current Datasource
+     * @param  {object} datasource A datasource js object
+     * @return {boolean}            [description]
+     */
+    self.selectDatasource = function(datasource) {
       console.log("### $rootScope.selectDatasource", datasource);
       NomieLab.currentDatasource = new NomieLabDatasource(datasource);
       $rootScope.currentDatasource = NomieLab.currentDatasource;
@@ -112,10 +131,9 @@ angular
         });
         /// Move this out of the else once we're done hacking
       }
-
-
-
     }
+
+
     self.datasourceStub = function() {
       return {
         type : 'couchdb',

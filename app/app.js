@@ -12,11 +12,6 @@ var NomieLabApp = angular.module('NomieLab',[
    .when('/home', {
     templateUrl		: './app/base/home.html',
     controller		: 'BaseController',
-  }).when('/something/else', {
-		templateUrl		: './app/base/base.html',
-		controller		: 'HomeController',
-	}).otherwise('/home');
-  // configure html5 to get links working on jsfiddle
+  }).otherwise('/home');
   $locationProvider.html5Mode(false);
-
 });

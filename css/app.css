@@ -7315,6 +7315,9 @@ button.close {
 .bg-faded-inverse-5 {
   background-color: rgba(255, 255, 255, 0.05); }
 
+/**
+ * @todo clean this "everything drawer" up
+ */
 .has_fixed_header {
   padding-top: 50px; }
 
@@ -7322,7 +7325,11 @@ button.close {
   box-shadow: 0 2px 4px rgba(0, 0, 0, 0.15);
   background-color: #ffffff;
   color: #2c3e50;
-  border-bottom: 1px solid #E5E5E5; }
+  border-bottom: 1px solid #E5E5E5;
+  z-index: 100; }
+
+.box-shadow, .statbox {
+  box-shadow: 0px 1px 2px rgba(0, 0, 0, 0.1); }
 
 .text-secondary {
   color: #3498db; }
@@ -7332,6 +7339,15 @@ button.close {
 
 .bg-white {
   background: #FFFFFF; }
+
+.navbar-header {
+  font-size: 14px;
+  text-transform: uppercase; }
+  .navbar-header .title {
+    font-weight: bold;
+    color: #000; }
+  .navbar-header .description {
+    color: rgba(0, 0, 0, 0.3); }
 
 .panel-secondary {
   border-color: #3498db; }
@@ -7380,6 +7396,14 @@ button.close {
   .panel-primary-light .panel-body {
     padding-top: 0px;
     background-color: white; }
+
+.statbox {
+  border: solid 1px rgba(0, 0, 0, 0.1);
+  border-bottom: solid 1px rgba(0, 0, 0, 0.15);
+  background: #FFF; }
+
+.statbox-default {
+  padding: 15px; }
 
 .navbar a {
   text-transform: uppercase;
@@ -7440,3 +7464,9 @@ button.close {
     margin-left: 0px;
     border: solid 2px #FFF;
     box-shadow: 0px 0px 2px rgba(0, 0, 0, 0.2); }
+
+.text-negative {
+  color: #c9214a; }
+
+.text-positive {
+  color: #22af6f; }

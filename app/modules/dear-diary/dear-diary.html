@@ -1,0 +1,166 @@
+<style type="text/css">
+  /**
+   *  Need to include custom CSS in this module, add it here.
+   */
+  .DearDiaryModule {
+    position:absolute;
+    height:100%;
+    width:100%;
+  }
+  .main-content {
+    position:absolute;
+    top:50px;
+    bottom:0;
+    right:0;
+    left:0;
+    z-index:0;
+  }
+  .tag {
+    text-decoration: none;
+    color:#000;
+  }
+  .tag:hover {
+    background-color:#429bca;
+    color:#FFF !important;
+    text-decoration: none;
+  }
+  .tag:focus {
+    text-decoration: none;
+    background-color:#429bca;
+    color:#FFF !important;
+    text-decoration: none;
+  }
+  .tag:hover .badge {
+    color:#FFF;
+    background:transparent;
+  }
+  .rounded {
+    border-radius:30px;
+  }
+  .diary-sidebar {
+    width:400px;
+    position:absolute;
+    top:0;
+    bottom:0;
+    left:0;
+    border-right:solid 1px #EEE;
+    background:#FFF;
+    overflow:scroll;
+  }
+  .diary-content-view {
+    position:absolute;
+    left:400px;
+    right:0;
+    bottom:0;
+    top:0;
+    overflow: scroll;
+  }
+  .scroll-pane {
+    position:absolute;
+    top:0;
+    bottom:0;
+    left:0;
+    right:0;
+    overflow: scroll;
+  }
+  .scroll-pane.has-header {
+    top:50px;
+  }
+</style>
+
+<div class="DearDiaryModule">
+
+  <!-- Module Header -->
+  <div class="module-header navbar navbar-default">
+      <div class="navbar-header">
+        <div class="title navbar-text">Dear Diary</div>
+      </div>
+      <ul class="nav navbar-nav pull-right">
+          <li ng-show="vm.note">
+            <a href class="" ng-click="vm.note=null">View Tags</a>
+          </li>
+        </ul>
+      </ul>
+  </div> <!--/.module-header -->
+
+  <!-- Module Main Content -->
+  <div class="main-content">
+    <div class="diary-sidebar">
+      <div class="navbar navbar-default">
+        <div class="padding-sm" role="search">
+          <div class="">
+              <input type="text" ng-model="vm.searchTerm" class="input-sm form-control rounded" placeholder="Search" name="srch-term" id="srch-term">
+          </div>
+        </div>
+      </div>
+      <div class="scroll-pane has-header">
+        <ul class="list-group">
+          <li ng-hide="vm.notes.length" class="list-group-item">
+            No notes in this data source.
+          </li>
+          <li class="list-group-item"
+              ng-repeat="note in vm.notes | orderBy : vm.orderBy | filter:vm.searchTerm"
+              ng-click="vm.showNote(note)"
+              ng-show="note.value"
+              ng-class="{ 'active' : vm.note == note }">
+              <i class="ion-ios-arrow-thin-down text-negative text-xl pull-right margin-lg-left" ng-show="note.charge<0"></i>
+              <i class="ion-ios-arrow-thin-up text-positive text-xl pull-right margin-lg-left" ng-show="note.charge>0"></i>
+              <h4 class="list-group-item-heading text-faded text-sm text-uppercase">{{note.time | amDateFormat:'dddd, MMMM Do YYYY, h:mm:ss a'}}</h4>
+            <p class="list-group-item-text">
+              {{trim(note.value,50)}}
+            </p>
+
+          </li>
+        </ul>
+      </div>
+    </div>
+    <div class="diary-content-view">
+
+      <div id="note-navbar" class="navbar navbar-default"  ng-show="vm.note">
+          <div class="navbar-header">
+            <div class="title navbar-text">Note</div>
+          </div>
+          <ul class="nav navbar-nav navbar-right padding-md-right">
+            <li><span class="navbar-text">SHARE</span></li>
+
+          </ul>
+      </div>
+
+      <div class="scroll-pane has-header bg-faded-5" id="note-view" ng-show="vm.note">
+        <div class="bg-white box-shadow hairline-all margin-xl">
+          <div class="padding-xl">
+            <div class="text-sm text-faded text-uppercase ">{{vm.note.time | amDateFormat:'dddd, MMMM Do YYYY, h:mm:ss a'}}</div>
+            <div class="text-lg">{{vm.note.value}}</div>
+          </div>
+          <div id="note-map" class="map-container min-height-md" ng-show="vm.mapVisible">
+
+          </div>
+        </div>
+
+      </div><!--/#note-view -->
+
+      <div id="tag-navbar" class="navbar navbar-default"  ng-show="!vm.note">
+          <div class="navbar-header">
+            <div class="title navbar-text">My Tags</div>
+          </div>
+          <ul class="nav navbar-nav navbar-right padding-md-right">
+            <li><span class="navbar-text">ORDER BY</span></li>
+            <li><a href ng-click="tagOrderBy='-count'">COUNT</a></li>
+            <li><a href ng-click="tagOrderBy='-name'">A-Z</a></li>
+          </ul>
+      </div>
+
+      <div id="tag-view" class="scroll-pane has-header bg-faded-5" ng-show="!vm.note">
+        <div class="padding-lg">
+          <a href class="tag  rounded hairline-all pull-left bg-white padding-xs-top padding-xs-bottom padding-xs-right padding-md-left margin-xs"
+          ng-repeat="tag in vm.tags | orderBy : tagOrderBy " ng-click="vm.searchTerm = tag.name">
+            {{tag.name}} <span class="badge bg-faded-5 text-thin text-faded-80 margin-sm-left">{{tag.count}}</span>
+          </a>
+          <div class="clear clearfix"></div>
+        </div>
+      </div>
+
+    </div>
+  </div><!--/.main-content-->
+
+</div>

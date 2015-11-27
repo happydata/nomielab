@@ -26,7 +26,7 @@
     "angular": "~1.4.3",
     "bootstrap-sass": "~3.3.5",
     "bootstrap-spacing": "*",
-    "angular-moment": "~0.10.2",
+    "angular-moment": "~0.10.3",
     "angular-route": "~1.4.3",
     "localforage": "~1.3.0",
     "pouchdb": "~5.1.0",

@@ -147,6 +147,9 @@ var NomieLabDatasourceCouchDB = function(options) {
   }
 
   pub.getNotes = function(options, callback) {
+    callback = callback || function(err, data) {
+      console.log("Intrem Callback for CouchDB.getNotes() missing callback", err, data);
+    }
     console.log("Nomie Lab CouchDB getData", pvt.remoteEventsCouch);
     pvt.localEventsCouch.allDocs({
       startkey : 'note|0',

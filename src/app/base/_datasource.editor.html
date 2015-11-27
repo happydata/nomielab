@@ -1,76 +1,91 @@
-<div id="add-datasource-modal" style="display:none;" class="padding-xl-left padding-xl-bottom padding-xl-right padding-md-top hairline-bottom bg-faded">
+<div id="add-datasource-modal" style="display:none;" class="hairline-bottom">
+  <div class="row padding-off margin-off">
+    <div class="col-sm-8 bg-faded-5 margin-off padding-off">
+          <!-- Modal content-->
+          <div class="panelcontent padding-xl">
+            <div class="panelheader">
+              <button type="button" class="close" ng-click="$root.cancelNewDatasource()">&times;</button>
+              <h4 class=" padding-off">Add a Datasource</h4>
+            </div>
+            <div class="panel-body padding-md">
+              <!-- Modal Body -->
+              <div class="padding-xl-left padding-xl-right padding-lg-bottom">
+                <div role="group" class="btn-group btn-group-sm btn-group-justified">
+                  <a class="btn btn-default " ng-class="{'btn-primary' : $root.newDatasource.type == 'couchdb'}" role="button" ng-click="$root.newDatasource.type = 'couchdb'">Nomie CouchDB</a>
+                  <a class="btn btn-default" ng-class="{'btn-primary' : $root.newDatasource.type == 'csv'}" role="button" ng-click="$root.newDatasource.type = 'csv'">Nomie CSV</a>
+                  <a class="btn btn-default" ng-class="{'btn-primary' : $root.newDatasource.type == 'dropbox'}" role="button" ng-click="$root.newDatasource.type = 'dropbox'">Dropbox Backup</a>
+                </div>
+              </div>
+              <!-- Datasource Type CSV -->
+              <!-- <fieldset>
+                <div class="form-group">
+                  <input type="text" placeholder="Nomie Oct 2015 Data" class="form-control input input-lg">
+                  <label for="" class="text-sm text-faded"><strong>ID:</strong> THEID</label>
+                </div>
+              </fieldset> -->
+              <fieldset ng-show="$root.newDatasource.type == 'csv' ">
+                <p>Select one of your Nomie CSV Exports.</p>
+                <div class="form-group">
+                  <input type="file" class="form-control input input-lg" id="csv-file" ng-model="$root.newDatasource.config.dropbox.file">
+                </div>
+              </fieldset>
+              <!-- Datasource Type CouchDB -->
+              <fieldset ng-show="$root.newDatasource.type == 'dropbox' ">
+                <p>Select one of your Nomie Dropbox backups.</p>
+                <div class="form-group">
+                  <input type="file" class="form-control input input-lg" id="dropbox-file" ng-model="$root.newDatasource.config.dropbox.file">
+                </div>
+              </fieldset>
+              <!-- Datasource Type Dropbox -->
+              <fieldset ng-show="$root.newDatasource.type == 'couchdb' ">
+                <p>Connect in real time to your Nomie Sync CouchDB.</p>
 
-    <!-- Modal content-->
-    <div class="panelcontent">
-      <div class="panelheader">
-        <button type="button" class="close" ng-click="$root.cancelNewDatasource()">&times;</button>
-        <h4 class=" padding-off">Add a Datasource</h4>
+                <div class="form-group row">
+                  <div class="col-xs-3">
+                    <label for="">HTTPS</label><br />
+                    <select name="" id="" ng-model="$root.newDatasource.config.couchdb.https" class="input form-control"
+                      ng-options="o.v as o.n for o in [{ n: 'http://', v: false }, { n: 'https://', v: true }]"
+                      >
+                    </select>
+                  </div>
+                  <div class="col-xs-9">
+                    <label for="">CouchDB Host Name</label>
+                    <input type="text" class="input form-control" ng-model="$root.newDatasource.config.couchdb.host">
+                  </div>
+
+                </div>
+                <div class="form-group row">
+                  <div class="col-xs-6">
+                    <label for="">Username</label>
+                    <input type="text" class="input form-control" ng-model="$root.newDatasource.config.couchdb.username">
+                  </div>
+                  <div class="col-xs-6">
+                    <label for="">Password</label>
+                    <input type="password" class="input form-control" ng-model="$root.newDatasource.config.couchdb.password">
+                  </div>
+                </div>
+
+              </fieldset>
+              <!-- End Modal Body -->
+            </div>
+            <div class="panelfooter">
+              <button type="button" class="btn btn-block btn-primary" ng-click="$root.saveDatasource()">Validate and Save Datasource</button>
+            </div>
+          </div>
+
+
+    </div><!-- /col-sm-8 -->
+    <div class="col-sm-4">
+      <div class="padding-lg">
+        <h4 class=" padding-off">What's a Datasource?</h4>
+        <p>A data source is a file or connection to a set of data Nomie Lab knows how to read.</p>
+        <p>Currently there are 3 types available:</p>
+        <ol>
+          <li><strong>CouchDB</strong> interact with data in real time using Nomie's CouchDB support</li>
+          <li><strong>CSV</strong> Import a CSV that has been exported from Nomie</li>
+          <li><strong>Dropbox</strong> Import your data from a Nomie Dropbox Backup</li>
+        </ol>
       </div>
-      <div class="panel-body padding-md">
-        <!-- Modal Body -->
-        <div class="padding-xl-left padding-xl-right padding-lg-bottom">
-          <div role="group" class="btn-group btn-group-sm btn-group-justified">
-            <a class="btn btn-default " ng-class="{'btn-primary' : vm.newDatasource.type == 'couchdb'}" role="button" ng-click="vm.newDatasource.type = 'couchdb'">Nomie CouchDB</a>
-            <a class="btn btn-default" ng-class="{'btn-primary' : vm.newDatasource.type == 'csv'}" role="button" ng-click="vm.newDatasource.type = 'csv'">Nomie CSV</a>
-            <a class="btn btn-default" ng-class="{'btn-primary' : vm.newDatasource.type == 'dropbox'}" role="button" ng-click="vm.newDatasource.type = 'dropbox'">Dropbox Backup</a>
-          </div>
-        </div>
-        <!-- Datasource Type CSV -->
-        <!-- <fieldset>
-          <div class="form-group">
-            <input type="text" placeholder="Nomie Oct 2015 Data" class="form-control input input-lg">
-            <label for="" class="text-sm text-faded"><strong>ID:</strong> THEID</label>
-          </div>
-        </fieldset> -->
-        <fieldset ng-show="vm.newDatasource.type == 'csv' ">
-          <p>Select one of your Nomie CSV Exports.</p>
-          <div class="form-group">
-            <input type="file" class="form-control input input-lg" id="csv-file" ng-model="vm.newDatasource.config.dropbox.file">
-          </div>
-        </fieldset>
-        <!-- Datasource Type CouchDB -->
-        <fieldset ng-show="vm.newDatasource.type == 'dropbox' ">
-          <p>Select one of your Nomie Dropbox backups.</p>
-          <div class="form-group">
-            <input type="file" class="form-control input input-lg" id="dropbox-file" ng-model="vm.newDatasource.config.dropbox.file">
-          </div>
-        </fieldset>
-        <!-- Datasource Type Dropbox -->
-        <fieldset ng-show="vm.newDatasource.type == 'couchdb' ">
-          <p>Connect in real time to your Nomie Sync CouchDB.</p>
-
-          <div class="form-group row">
-            <div class="col-xs-3">
-              <label for="">HTTPS</label><br />
-              <select name="" id="" ng-model="vm.newDatasource.config.couchdb.https" class="input form-control"
-                ng-options="o.v as o.n for o in [{ n: 'http://', v: false }, { n: 'https://', v: true }]"
-                >
-              </select>
-            </div>
-            <div class="col-xs-9">
-              <label for="">CouchDB Host Name</label>
-              <input type="text" class="input form-control" ng-model="vm.newDatasource.config.couchdb.host">
-            </div>
-
-          </div>
-          <div class="form-group row">
-            <div class="col-xs-6">
-              <label for="">Username</label>
-              <input type="text" class="input form-control" ng-model="vm.newDatasource.config.couchdb.username">
-            </div>
-            <div class="col-xs-6">
-              <label for="">Password</label>
-              <input type="password" class="input form-control" ng-model="vm.newDatasource.config.couchdb.password">
-            </div>
-          </div>
-
-        </fieldset>
-        <!-- End Modal Body -->
-      </div>
-      <div class="panelfooter">
-        <button type="button" class="btn btn-block btn-primary" ng-click="vm.saveDatasource()">Validate and Save Datasource</button>
-      </div>
-    </div>
-
-
+    </div> <!-- /col-sm-4 -->
+  </div>
 </div>

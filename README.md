@@ -25,8 +25,9 @@ gulp serve
 
 ## App Structure
 
-- index.html - the "one" page.
-- app/
+- /src - Container of the app code
+- /src/index.html - the "one" page.
+- /src/app/
   - base - starter module
       - /base.js - start controller
   - Layouts

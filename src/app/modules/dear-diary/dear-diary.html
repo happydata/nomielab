@@ -38,7 +38,7 @@
     border-radius:30px;
   }
   .diary-sidebar {
-    width:400px;
+    width:30%;
     position:absolute;
     top:0;
     bottom:0;
@@ -48,15 +48,15 @@
   }
   .diary-content-view {
     position:absolute;
-    left:400px;
+    left:30%;
     right:0;
     bottom:0;
-    top:0;
+    top0;
     overflow: scroll;
   }
   .scroll-pane {
     position:absolute;
-    top:0;
+    top:2px;
     bottom:0;
     left:0;
     right:0;
@@ -85,17 +85,16 @@
   <!-- Module Main Content -->
   <div class="main-content">
     <div class="diary-sidebar">
-      <div class="navbar navbar-default bg-primary hairline-off">
-        <div class="padding-sm" role="search">
-          <div class="">
-              <input type="text" ng-model="vm.searchTerm" class="hairline-off bg-faded-inverse-20 text-white input-sm form-control rounded" placeholder="" name="srch-term" id="srch-term">
-              <i class="ion-ios-search" style="position:absolute; top:15px; right:25px;"></i>
-          </div>
+      <div class="bg-primary hairline-off">
+        <div class="padding-sm">
+          <input type="text" ng-model="vm.searchTerm" class="hairline-off bg-faded-inverse-20 text-white input-sm form-control rounded" placeholder="" name="srch-term" id="srch-term">
+          <i class="ion-ios-search" style="position:absolute; top:15px; right:25px;"></i>
+
         </div>
       </div>
       <div class="scroll-pane has-header">
         <ul class="list-group">
-          <li ng-hide="vm.notes.length" class="list-group-item">
+          <li ng-hide="vm.notes.length" class=" padding-lg text-center">
             No notes in this data source.
           </li>
           <li class="list-group-item"
@@ -171,25 +170,26 @@
       </div>
 
       <div id="tag-view" class="scroll-pane has-header bg-faded-5" ng-show="!vm.note">
-        <div class="list-group">
-
-          <a href class="list-group-item row bg-white clearfix  hairline-bottom"
+        <div class="list-group margin-sm-top margin-sm-left margin-sm-right">
+          <a href class="list-group-item bg-white clearfix  hairline-bottom"
           ng-repeat="tag in vm.tags | orderBy : tagOrderBy " ng-click="vm.searchTerm = tag.name">
-            <div class="col-sm-2 hairline-left">
-              {{tag.name}}
-            </div>
-            <div class="col-sm-2">
-              {{tag.charge}}
-            </div>
-            <div class="col-sm-6">
-              <!-- Should be a percentage -->
-              <div class="rounded bg-faded-60" style="width:{{tag.count}}px">
-                  &nbsp;
+            <div class="row">
+              <div class="col-sm-2">
+                {{tag.name}}
               </div>
-            </div>
+              <div class="col-sm-2">
+                {{tag.charge}}
+              </div>
+              <div class="col-sm-6">
+                <!-- Should be a percentage -->
+                <div class="rounded bg-faded-60" style="width:{{tag.count}}px">
+                    &nbsp;
+                </div>
+              </div>
 
-            <div class="col-sm-2">
-              <span class="text-md pull-right">{{tag.count}}</span>
+              <div class="col-sm-2">
+                <span class="text-md pull-right">{{tag.count}}</span>
+              </div>
             </div>
           </a>
           <div class="clear clearfix"></div>

@@ -77,7 +77,6 @@ NomieLabApp
         map.setView(new L.LatLng(lat,lon), 15 );
         map.addLayer(osmLayer);
         var marker = L.marker(note.geo).addTo(map);
-
       });
     };
     $scope.vm.hideMap = function(note) {

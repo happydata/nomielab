@@ -51,7 +51,7 @@
     left:30%;
     right:0;
     bottom:0;
-    top0;
+    top:0;
     overflow: scroll;
   }
   .scroll-pane {
@@ -85,9 +85,9 @@
   <!-- Module Main Content -->
   <div class="main-content">
     <div class="diary-sidebar">
-      <div class="bg-primary hairline-off">
+      <div class="bg-faded-5 hairline-off">
         <div class="padding-sm">
-          <input type="text" ng-model="vm.searchTerm" class="hairline-off bg-faded-inverse-20 text-white input-sm form-control rounded" placeholder="" name="srch-term" id="srch-term">
+          <input type="text" ng-model="vm.searchTerm" class="hairline-off bg-faded-5 input-sm form-control rounded" placeholder="Search Notes..." name="srch-term" id="srch-term">
           <i class="ion-ios-search" style="position:absolute; top:15px; right:25px;"></i>
 
         </div>
@@ -116,9 +116,9 @@
     </div>
     <div class="diary-content-view">
 
-      <div id="note-navbar" class="navbar navbar-default-inverse bg-primary"  ng-show="vm.note">
+      <div id="note-navbar" class="navbar navbar-default bg-faded-5"  ng-show="vm.note">
           <div class="navbar-header">
-            <div class="navbar-text text-white">{{vm.note.time | amDateFormat:'dddd, MMM Do YYYY  h:mma'}}</div>
+            <div class="navbar-text">{{vm.note.time | amDateFormat:'dddd, MMM Do YYYY  h:mma'}}</div>
           </div>
           <ul class="nav navbar-nav navbar-right padding-md-right">
             <li><span class="navbar-text">SHARE</span></li>
@@ -139,22 +139,22 @@
       </div><!--/#note-view -->
 
       <div id="tag-navbar" class=""  ng-show="!vm.note">
-        <div  class="list-group-item row bg-primary text-white" style="line-height:30px;"> <!-- i'm a bastard -->
-          <div class="col-sm-2 text-white"
+        <div  class="list-group-item row bg-faded-5 hairline-bottom" style="line-height:30px;"> <!-- i'm a bastard -->
+          <div class="col-sm-2"
                ng-click="vm.setTagOrderBy('name')"
                ng-class="{'text-bold' : tagOrderBy == '-name' || tagOrderBy == 'name'}">
             Hashtag
             <i class="icon ion-chevron-down" ng-show="tagOrderBy == '-name'"></i>
             <i class="icon ion-chevron-up" ng-show="tagOrderBy == 'name'"></i>
           </div>
-          <div class="col-sm-2 text-white"
+          <div class="col-sm-2"
                ng-click="vm.setTagOrderBy('charge')"
                ng-class="{'text-bold' : tagOrderBy == '-charge' || tagOrderBy == 'charge'}">
             Charge
             <i class="icon ion-chevron-down" ng-show="tagOrderBy == '-charge'"></i>
             <i class="icon ion-chevron-up" ng-show="tagOrderBy == 'charge'"></i>
           </div>
-          <div class="col-sm-6 text-white"
+          <div class="col-sm-6"
                ng-click="vm.setTagOrderBy('count')"
                ng-class="{'text-bold' : tagOrderBy == '-count' || tagOrderBy == 'count'}">
             <!-- Should be a percentage -->
@@ -164,12 +164,12 @@
           </div>
 
           <div class="col-sm-2">
-            <span class="pull-right text-white" ng-click="tagOrderBy='-count'" ng-class="{'text-bold' : tagOrderBy == '-count'}">Count</span>
+            <span class="pull-right" ng-click="tagOrderBy='-count'" ng-class="{'text-bold' : tagOrderBy == '-count'}">Count</span>
           </div>
         </div>
       </div>
 
-      <div id="tag-view" class="scroll-pane has-header bg-faded-5" ng-show="!vm.note">
+      <div id="tag-view" class="scroll-pane has-header bg-faded-10" ng-show="!vm.note">
         <div class="list-group margin-sm-top margin-sm-left margin-sm-right">
           <a href class="list-group-item bg-white clearfix  hairline-bottom"
           ng-repeat="tag in vm.tags | orderBy : tagOrderBy " ng-click="vm.searchTerm = tag.name">

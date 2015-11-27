@@ -7415,7 +7415,8 @@ button.close {
 
 .navbar .navbar-brand {
   line-height: 10px;
-  width: 160px; }
+  width: 200px;
+  text-align: center; }
   .navbar .navbar-brand img {
     height: 20px;
     display: inline; }

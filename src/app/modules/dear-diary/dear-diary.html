@@ -116,7 +116,7 @@
     </div>
     <div class="diary-content-view">
 
-      <div id="note-navbar" class="navbar navbar-default bg-faded-5"  ng-show="vm.note">
+      <div id="note-navbar" class="navbar  bg-faded-5"  ng-show="vm.note">
           <div class="navbar-header">
             <div class="navbar-text">{{vm.note.time | amDateFormat:'dddd, MMM Do YYYY  h:mma'}}</div>
           </div>
@@ -126,7 +126,7 @@
           </ul>
       </div>
 
-      <div class="scroll-pane has-header bg-faded-5" id="note-view" ng-show="vm.note">
+      <div class="scroll-pane has-header bg-faded-10" id="note-view" ng-show="vm.note">
         <div class="bg-white box-shadow hairline-all margin-xl">
           <div class="padding-xl">
             <div class="text-lg">{{vm.note.value}}</div>
@@ -170,7 +170,7 @@
       </div>
 
       <div id="tag-view" class="scroll-pane has-header bg-faded-10" ng-show="!vm.note">
-        <div class="list-group margin-sm-top margin-sm-left margin-sm-right">
+        <div class="list-group margin-md">
           <a href class="list-group-item bg-white clearfix  hairline-bottom"
           ng-repeat="tag in vm.tags | orderBy : tagOrderBy " ng-click="vm.searchTerm = tag.name">
             <div class="row">

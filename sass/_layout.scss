@@ -6,7 +6,8 @@
   }
   .navbar-brand {
     line-height:10px;
-    width:$sidebar-width - 40;
+    width:$sidebar-width;
+    text-align: center;
     img {
       height:20px;
       display:inline;

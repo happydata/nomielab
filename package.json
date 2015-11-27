@@ -1,17 +1,20 @@
 {
-  "name": "nomie-lab-2",
+  "name": "nomielab",
   "version": "0.0.1",
   "description": "An interface for Nomie Data",
-  "main": "index.js",
+  "main": "src/app/app.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
   },
-  "author": "",
-  "license": "ISC",
+  "author": "Brandon Corbin <brandon@icorbin.com>",
+  "license": "MIT",
   "dependencies": {
     "browser-sync": "^2.8.2",
     "gulp-jsdoc": "^0.1.4",
     "gulp-sass": "^2.0.4",
     "ng-annotate": "^1.0.2"
+  },
+  "devDependencies": {
+    "gulp-electron": "0.0.9"
   }
 }

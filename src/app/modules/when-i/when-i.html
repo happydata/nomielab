@@ -1,8 +1,208 @@
 <style type="text/css">
+	/**
+   *  Need to include custom CSS in this module, add it here.
+   */
 
+	.WhenIModule {
+		position: absolute;
+		height: 100%;
+		width: 100%;
+	}
 
+	.main-content {
+		position: absolute;
+		top: 50px;
+		bottom: 0;
+		right: 0;
+		left: 0;
+		z-index: 0;
+	}
+
+	.tag {
+		text-decoration: none;
+		color: #000;
+	}
+
+	.tag:hover {
+		background-color: #429bca;
+		color: #FFF !important;
+		text-decoration: none;
+	}
+
+	.tag:focus {
+		text-decoration: none;
+		background-color: #429bca;
+		color: #FFF !important;
+		text-decoration: none;
+	}
+
+	.tag:hover .badge {
+		color: #FFF;
+		background: transparent;
+	}
+
+	.rounded {
+		border-radius: 30px;
+	}
+
+	.wheni-sidebar {
+		width: 30%;
+		position: absolute;
+		top: 0;
+		bottom: 0;
+		left: 0;
+		background: #FFF;
+		overflow: scroll;
+		border-right: solid 1px rgba(0, 0, 0, .1);
+	}
+
+	.wheni-content-view {
+		position: absolute;
+		left: 30%;
+		right: 0;
+		bottom: 0;
+		top: 0;
+		overflow: scroll;
+	}
+
+	.scroll-pane {
+		position: absolute;
+		top: 2px;
+		bottom: 0;
+		left: 0;
+		right: 0;
+		overflow: scroll;
+	}
+
+	.scroll-pane.has-header {
+		top: 50px;
+	}
+
+	.tracker-item {}
+
+	.tracker-item .nomie-icon,
+	.tracker-item .nomie-icon:after,
+	.tracker-item .nomie-icon:before {
+		font-size: 26px;
+		line-height: 26px;
+		width: 40px;
+		overflow: hidden;
+		margin: 0px;
+	}
+
+	.tracker-item {
+		line-height: 40px;
+	}
+
+	.tracker-item.active .nomie-icon {
+		color: #FFF !important;
+	}
+
+	.related-trackers .list-group-item {
+		padding: 10px 3px;
+		border-left: none;
+		border-right: none;
+	}
 </style>
 
-<div class="wheni">
+<div class="WhenIModule">
+
+	<!-- Module Header -->
+	<div class="module-header navbar navbar-default">
+		<div class="navbar-header hairline-right">
+			<div class="title navbar-text">WHEN I DO...</div>
+		</div>
+		<div class="navbar-form">
+			<input type="text" ng-model="vm.searchTerm" class="margin-md-left hairline-off bg-faded-5 padding-md-left padding-md-right input-sm form-control rounded" placeholder="Search Trackers..." name="srch-term" id="srch-term">
+			<i class="ion-ios-search" style="position:relative; right:25px;"></i>
+		</div>
+	</div>
+	<!--/.module-header -->
+
+	<!-- Module Main Content -->
+	<div class="main-content">
+		<div class="wheni-sidebar">
+			<div class="scroll-pane ">
+				<ul class="list-group bg-white">
+					<li ng-hide="vm.trackerArray.length" class=" padding-lg text-center">
+						No Trackers Found
+					</li>
+					<li class="list-group-item tracker-item" ng-repeat="tracker in vm.trackerArray | orderBy : '-label' | filter : vm.searchTerm" ng-click="vm.selectTracker(tracker)" ng-show="tracker.label" ng-class="{ 'active' : vm.selectedTracker == tracker }">
+						<i class="text-lg pull-left margin-lg-right nomie-icon {{tracker.icon}}" style="color:{{tracker.color}}"></i>
+						<h4 class="list-group-item-heading">{{tracker.label}}</h4>
+					</li>
+				</ul>
+			</div>
+		</div>
+		<div class="wheni-content-view">
+
+			<div class="scroll-pane" id="note-view" ng-show="vm.selectedTracker">
+
+				<div class=" text-faded bg-faded-5 border-radius padding-sm">
+					Remember: Just because they are related doesn't mean one causes the other. Aka: Correlation does not equal causation. This module is
+					<strong>highly experimental</strong> and needs to be worked on by someone smarter than myself.
+				</div>
+
+				<div class="padding-sm-top padding-sm-left bg-faded-5">
+					<ul class="nav nav-tabs">
+						<li role="presentation" class="active"><a href="#">Same Day</a></li>
+						<li class="disabled" role="presentation"><a disabled="disabled">Next Day</a></li>
+					</ul>
+				</div>
+
+				<div class="padding-md">
+					<div class="row ">
+						<div class="col-xs-6 min-height-md">
+							<div class="statbox statbox-default related-trackers">
+								<h1 class="text-md margin-off-top">Increase in
+								<strong>{{vm.selectedTracker.label}}</strong> correlates to:</h1>
+
+								<div class="row">
+									<div class="col-sm-6">
+										<h2 class="text-md text-uppercase padding-off margin-off-top  text-faded">Increase </h2>
+										<a href ng-click="vm.selectTracker(related.tracker)" class="text-ellipses list-group-item" ng-repeat="(index,related) in vm.related.moreThanToMoreThan">
+                      #{{index+1}}  <strong>{{related.tracker.label}}</strong>
+                    </a>
+									</div>
+									<div class="col-sm-6">
+										<h2 class=" text-md text-uppercase padding-off margin-off-top  text-faded">Decrease</h2>
+										<a href ng-click="vm.selectTracker(related.tracker)" class="text-ellipses list-group-item" ng-repeat="(index,related) in vm.related.moreThanToLessThan">
+                      #{{index+1}}  <strong>{{related.tracker.label}}</strong>
+                    </a>
+									</div>
+								</div>
+							</div> <!-- end statbox -->
+						</div> <!-- end column increase -->
+
+						<div class="col-xs-6 min-height-md">
+							<div class="statbox statbox-default related-trackers">
+								<h1 class="text-md margin-off-top">Decrease in
+									<strong>{{vm.selectedTracker.label}}</strong> correlates to:</h1>
+
+								<div class="row">
+									<div class="col-sm-6">
+										<h2 class="text-md text-uppercase padding-off margin-off-top  text-faded">Increase</h2>
+										<a href ng-click="vm.selectTracker(related.tracker)" class="text-ellipses list-group-item" ng-repeat="(index,related) in vm.related.lessThanToMoreThan">
+                      #{{index+1}}  <strong>{{related.tracker.label}}</strong>
+                    </a>
+									</div>
+									<div class="col-sm-6">
+										<h2 class=" text-md text-uppercase padding-off margin-off-top  text-faded">Decrease</h2>
+										<a href ng-click="vm.selectTracker(related.tracker)" class="text-ellipses list-group-item" ng-repeat="(index,related) in vm.related.lessThanToLessThan">
+                      #{{index+1}}  <strong>{{related.tracker.label}}</strong>
+                    </a>
+									</div>
+								</div>
+							</div> <!-- end statbox -->
+						</div> <!-- End Decrease Column --->
+					</div>
+				</div>
+				<!-- end padding-md-->
+			</div>
+			<!--/#wheni-view -->
+
+		</div>
+	</div>
+	<!--/.main-content-->
 
 </div>

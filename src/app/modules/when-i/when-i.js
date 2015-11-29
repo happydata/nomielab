@@ -41,17 +41,33 @@ NomieLabApp
 
     $scope.vm.init = function() {
       WhenIService.init(function(err, datapack){
-        $scope.trackers = datapack.trackers;
+        console.log("WhenIService Init", datapack);
+        $timeout(function() {
+          $scope.vm.trackers = datapack.trackers;
+          $scope.vm.trackerArray = function(trackerObjs) {
+            var r = [];
+            for(var i in trackerObjs) {
+              r.push(trackerObjs[i]);
+            }
+            return r;
+          }(datapack.trackers);
+        },120);
         // Temp Auto filter
-        $scope.vm.filter();
       });
     }; // scope.vm.init()
 
-    $scope.vm.filter = function() {
-      WhenIService.findTimesWhenMoreThanUsual({}, function(err, data) {
-        console.log("Nice work! if theres data... im in the controller vm.filter", err, data);
-      });
-    }
+    $scope.vm.selectedTracker = null;
+    $scope.vm.selectTracker = function(tracker) {
+      $scope.vm.selectedTracker = tracker;
+      $scope.vm.related = WhenIService.findRelatedTrackers(tracker._id, 10);
+      console.log("Related to "+tracker.label+" ", $scope.vm.related);
+    };
+
+    // $scope.vm.filter = function() {
+    //   WhenIService.findTimesWhenMoreThanUsual({}, function(err, data) {
+    //     console.log("Nice work! if theres data... im in the controller vm.filter", err, data);
+    //   });
+    // }
 
     //Load and Reload when needed
     $rootScope.$on('datasource-selected', function(event, datasource) {
@@ -63,6 +79,12 @@ NomieLabApp
 
 	} // end main home controller function
 ]);
+
+
+
+
+
+
 /**
  * Nomie WhenI Service
  * @memberof WhenIModule
@@ -76,10 +98,12 @@ NomieLabApp
 
     self.init = function(callback) {
       NomieLab.currentDatasource.getAllData(function(err, datapack) {
+        console.log("NomieLab.currentDatasource.getAllData()", err, datapack);
           self.data = datapack;
           eventQuery = JsonQuery(datapack.events);
           self.data.eventQuery = eventQuery;
-          self.analyzeTrackers();
+
+          self.analyzeTrackers();``
           console.log("WhenIService init()", self.data);
           callback(null, self.data);
       });
@@ -96,10 +120,8 @@ NomieLabApp
       filter = filter || {};
       filter.trackerId = filter.trackerId || "151b198daba1483bb319e16e3aef0649";
 
-      var primaryTracker =
-
-      console.log("Find Times for Tracker "+filter.trackerId, self.generateTrackerStats(filter.trackerId));
-      console.log("Compare all", self.findRelatedTrackers(filter.trackerId));
+    //  console.log("Find Times for Tracker "+filter.trackerId, self.generateTrackerStats(filter.trackerId));
+      //console.log("Compare all", self.findRelatedTrackers(filter.trackerId));
 
 
     }; // end findTimesWhenMoreThanUsual
@@ -124,8 +146,6 @@ NomieLabApp
       var eachDayMax = Math.ceil(jStat.max(self.toValueArray(eachDay)));
       var eachDayMin = Math.floor(jStat.min(self.toValueArray(eachDay)));
       var variance = 0.4;
-
-
 
       var outliers = {
         moreThanTimes : [],
@@ -165,8 +185,14 @@ NomieLabApp
 
     }; //self.compareAll
 
-    self.findRelatedTrackers = function(trackerId) {
-      console.log("Finding related ");
+    /**
+     * Find Related Trackers
+     * @param  {string} trackerId A Tracker ID To compare
+     * @param  {numeric} limit     optional number to limit result count`
+     */
+    self.findRelatedTrackers = function(trackerId, limit) {
+      limit = limit || null;
+
       var related = {
           moreThanToLessThan : [],
           lessThanToMoreThan : [],
@@ -174,36 +200,75 @@ NomieLabApp
           lessThanToLessThan : []
       };
       var tracker = self.data.trackers[trackerId];
-      console.log("tracker", tracker);
-      for(var t2 in self.data.trackers) {
-        var tracker2 = self.data.trackers[t2];
 
-        if(tracker.hasOwnProperty('stats') && tracker2.hasOwnProperty('stats')) {
+      // Loop over all trackers
+      for(var t2 in self.data.trackers) {
+        // This compare Tracker
+        var tracker2 = self.data.trackers[t2];
+        // If it both trackers have the stats property, and both trackers are different.
+        if(tracker.hasOwnProperty('stats') && tracker2.hasOwnProperty('stats') && (tracker2._id != tracker._id)) {
+            /**
+             * Populate Matches
+             * The idea is to find the average for a tracker, find days that are higher and days that are lower
+             * and compare that to other trackers. If we have more of tracker 1 and tracker 2.. That goes to the
+             * more and more,,, less of tracker 1 and more of tracker 2. That goes to the Less Than More Than...
+             */
             var matches = {
               moreThanToLessThan : self.matchTimeSlotArrays(tracker.stats.outliers.moreThanTimes, tracker2.stats.outliers.lessThanTimes),
               lessThanToMoreThan : self.matchTimeSlotArrays(tracker.stats.outliers.lessThanTimes, tracker2.stats.outliers.moreThanTimes),
               moreThanToMoreThan : self.matchTimeSlotArrays(tracker.stats.outliers.moreThanTimes, tracker2.stats.outliers.moreThanTimes),
               lessThanToLessThan : self.matchTimeSlotArrays(tracker.stats.outliers.lessThanTimes, tracker2.stats.outliers.lessThanTimes)
             }
-            var clone = angular.copy(tracker2);
+            var clone = angular.copy(tracker2); //Get its own copy to work with.
             if(matches.moreThanToMoreThan>0) {
               related.moreThanToMoreThan.push({
                 tracker : clone,
                 count : matches.moreThanToMoreThan
               });
             }
-
+            if(matches.moreThanToLessThan>0) {
+              related.moreThanToLessThan.push({
+                tracker : clone,
+                count : matches.moreThanToLessThan
+              });
+            }
+            if(matches.lessThanToMoreThan>0) {
+              related.lessThanToMoreThan.push({
+                tracker : clone,
+                count : matches.lessThanToMoreThan
+              });
+            }
+            if(matches.lessThanToLessThan>0) {
+              related.lessThanToLessThan.push({
+                tracker : clone,
+                count : matches.lessThanToLessThan
+              });
+            }
 
           } else {
-
+            // Nothing
           }
       }
-
+      // Sort by the highest variances
       related.moreThanToMoreThan.sort(function(a, b) {
         return b.count - a.count;
       });
-
-      console.log("Related Trackers", related);
+      related.moreThanToLessThan.sort(function(a, b) {
+        return b.count - a.count;
+      });
+      related.lessThanToMoreThan.sort(function(a, b) {
+        return b.count - a.count;
+      });
+      related.lessThanToLessThan.sort(function(a, b) {
+        return b.count - a.count;
+      });
+      // Slice the array if the user only wants a certain limited number.
+      if(limit) {
+        related.moreThanToMoreThan = related.moreThanToMoreThan.slice(0,limit);
+        related.moreThanToLessThan = related.moreThanToLessThan.slice(0,limit);
+        related.lessThanToMoreThan = related.lessThanToMoreThan.slice(0,limit);
+        related.lessThanToLessThan = related.lessThanToLessThan.slice(0,limit);
+      }
       return related;
     }
 

@@ -27,6 +27,12 @@
   color:#FFF;
 }
 
+.text-ellipses {
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
 .bg-white {
   background:#FFFFFF;
 }

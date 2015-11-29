@@ -32,6 +32,9 @@ angular
         BaseService.saveDatasource($rootScope.newDatasource, function(err, data) {
           if(err===null) {
             NomieLab.notify.success("Datasource Successfully Saved");
+            $timeout(function() {
+              $rootScope.datasources = NomieLab.datasources.getAll();
+            });
           } else {
             NomieLab.notify.error("Adding Datasource Failed. Reason: "+err.message);
           }

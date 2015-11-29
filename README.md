@@ -1,16 +1,24 @@
-#Nomie Lab  !!EXPERIMENTAL NOT READY FOR PUBLIC CONSUMPTION.
+# Nomie Lab - Developer Preview
 
 Nomie Lab is an open source HTML5 app interacting with data collected using [Nomie](http://nomie.io). Personal private data is the heart of Nomie, but with making data private, we often lose the ability to access kick ass tools. Nomie Lab should solve that.
 
-## The Nomie Lab Objective:
-To provide a free and decentralized application to analyze, research and explore your Nomie data - without giving it up to some remote server.
+## Nomie Lab Objective:
+To provide a free, decentralized application to privately analyze, research and explore your personal Nomie data.
 
+## Installing Nomie Lab
+
+You'll need [Bower](https://bower.io) and [Node/NPM](https://nodejs.org/en/) installed to use Nomie Lab (for now).
 
 ```
 git clone https://github.com/happydata/nomielab.git
 cd nomielab
 bower install
 npm install
+```
+
+## Run Nomie Lab
+
+```
 gulp serve
 ```
 

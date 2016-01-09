@@ -43,6 +43,19 @@
       bottom:0;
     }
   }
+
+  @media(max-width: $screen-md-max){
+    #sidebar {
+      width:60px !important;
+      label {
+        display:none;
+      }
+    }
+    #primary-content {
+      left: 60px !important;
+    }
+  }
+
 }
 
 
@@ -88,3 +101,136 @@
 
   }
 }
+
+div.fixed {
+  position: absolute;
+  bottom: 0;
+  top:$navbar-height;
+  right: 0;
+  left: 0;
+  z-index: 0;
+  &.fixed-has-header {
+    top: $navbar-height;
+  }
+  .fixed-pane {
+    position: absolute;
+    top: 0;
+    bottom: 0;
+    overflow: scroll;
+  }
+  &.fixed-2-8 {
+    .fixed-pane:first-child {
+        width: 20%;
+        left: 0;
+    }
+    .fixed-pane:last-child {
+        right: 0;
+        left: 20%;
+    }
+  }
+  &.fixed-1-9 {
+    .fixed-pane:first-child {
+        width: 10%;
+        left: 0;
+    }
+    .fixed-pane:last-child {
+        right: 0;
+        left: 10%;
+    }
+  }
+  &.fixed-3-7 {
+    .fixed-pane:first-child {
+        width: 30%;
+        left: 0;
+    }
+    .fixed-pane:last-child {
+        right: 0;
+        left: 30%;
+    }
+  }
+  &.fixed-4-6 {
+    .fixed-pane:first-child {
+        width: 40%;
+        left: 0;
+    }
+    .fixed-pane:last-child {
+        right: 0;
+        left: 40%;
+    }
+  }
+  &.fixed-5-5 {
+    .fixed-pane:first-child {
+        width: 50%;
+        left: 0;
+    }
+    .fixed-pane:last-child {
+        right: 0;
+        left: 50%;
+    }
+  }
+  &.fixed-6-4 {
+    .fixed-pane:first-child {
+        width: 60%;
+        left: 0;
+    }
+    .fixed-pane:last-child {
+        right: 0;
+        left: 60%;
+    }
+  }
+  &.fixed-7-3 {
+    .fixed-pane:first-child {
+        width: 70%;
+        left: 0;
+    }
+    .fixed-pane:last-child {
+        right: 0;
+        left: 70%;
+    }
+  }
+  &.fixed-8-2 {
+    .fixed-pane:first-child {
+        width: 80%;
+        left: 0;
+    }
+    .fixed-pane:last-child {
+        right: 0;
+        left: 80%;
+    }
+  }
+  &.fixed-9-1 {
+    .fixed-pane:first-child {
+        width: 90%;
+        left: 0;
+    }
+    .fixed-pane:last-child {
+        right: 0;
+        left: 90%;
+    }
+  }
+
+  .list-group-item {
+    &.active {
+      background-color:lighten($primary-color, 40%);
+      color:#000;
+      border:solid 1px rgba(0,0,0,.1);
+      // .nomie-icon {
+      //   color:#FFF !important;
+      // }
+    }
+  }
+
+  .scroll-pane {
+		position: absolute;
+		top: 2px;
+		bottom: 0;
+		left: 0;
+		right: 0;
+		overflow: scroll;
+	}
+
+	.scroll-pane.has-header {
+		top: $navbar-height;
+	}
+
+} //div.fixed

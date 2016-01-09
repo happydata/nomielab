@@ -1,7 +1,7 @@
 {
-  "name": "a-sassy-boot",
-  "version": "0.0.1",
-  "description": "Angular Bootstrap-Sass Starter Template",
+  "name": "nomielab",
+  "version": "0.0.2",
+  "description": "Open Source Nomie Data Analyzer",
   "main": "README.md",
   "keywords": [
     "angular",
@@ -14,7 +14,7 @@
     "Brandon Corbin <brandon@happydata.org>"
   ],
   "license": "MIT",
-  "homepage": "http://icorbin.com",
+  "homepage": "https://nomie.io",
   "ignore": [
     "**/.*",
     "node_modules",
@@ -35,6 +35,8 @@
     "moment": "~2.10.6",
     "JsonQuery": "https://github.com/jiren/JsonQuery.git",
     "jstat": "~1.4.7",
-    "c3": "~0.4.10"
+    "c3": "~0.4.10",
+    "bootstrap-ui": "~0.14.3",
+    "angular-bootstrap": "~0.14.3"
   }
 }

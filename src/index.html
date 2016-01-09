@@ -5,28 +5,30 @@
 	<title>Nomie Lab</title>
 
 	<!-- Libraries -->
-  <script src="./bower-lib/angular/angular.js" charset="utf-8"></script>
-	<script src="./bower-lib/angular-route/angular-route.js" charset="utf-8"></script>
-	<script src="./bower-lib/jquery/dist/jquery.min.js" charset="utf-8"></script>
-	<script src="./bower-lib/bootstrap-sass/assets/javascripts/bootstrap.min.js" charset="utf-8"></script>
-	<script src="./bower-lib/moment/min/moment.min.js"></script>
-	<script src="./bower-lib/angular-moment/angular-moment.js"></script>
-  <script src="./bower-lib/localforage/dist/localforage.min.js"></script>
-  <script src="./bower-lib/pouchdb/dist/pouchdb.min.js"></script>
-  <script src="./bower-lib/toastr/toastr.min.js"></script>
-  <script src="./bower-lib/JsonQuery/dist/json_query.min.js"></script>
-  <script src="./bower-lib/jstat/dist/jstat.min.js"></script>
-  <script src="./bower-lib/d3/d3.min.js"></script>
-  <script src="./bower-lib/c3/c3.min.js"></script>
-
+  <script data-combine="true" src="./bower-lib/angular/angular.js" charset="utf-8"></script>
+	<script data-combine="true" src="./bower-lib/angular-route/angular-route.js" charset="utf-8"></script>
+	<script data-combine="true" src="./bower-lib/jquery/dist/jquery.min.js" charset="utf-8"></script>
+	<script data-combine="true" src="./bower-lib/bootstrap-sass/assets/javascripts/bootstrap.min.js" charset="utf-8"></script>
+	<script data-combine="true" src="./bower-lib/moment/min/moment.min.js"></script>
+	<script data-combine="true" src="./bower-lib/angular-moment/angular-moment.js"></script>
+  <script data-combine="true" src="./bower-lib/localforage/dist/localforage.min.js"></script>
+  <script data-combine="true" src="./bower-lib/pouchdb/dist/pouchdb.min.js"></script>
+  <script data-combine="true" src="./bower-lib/toastr/toastr.min.js"></script>
+  <script data-combine="true" src="./bower-lib/JsonQuery/dist/json_query.min.js"></script>
+  <script data-combine="true" src="./bower-lib/jstat/dist/jstat.min.js"></script>
+  <script data-combine="true" src="./bower-lib/d3/d3.min.js"></script>
+  <script data-combine="true" src="./bower-lib/c3/c3.min.js"></script>
+  <script data-combine="true" src="./bower-lib/angular-bootstrap/ui-bootstrap.min.js"></script>
+  <script data-combine="true" src="./bower-lib/angular-bootstrap/ui-bootstrap-tpls.min.js"></script>
+  <link rel="stylesheet" data-combine="true" href="./bower-lib/angular-bootstrap/ui-bootstrap-csp.css">
   <!-- /Libraries -->
 
-  <script src="./nomie-lib/nomie-lab-analysis/corbin-general.js"></script>
+  <script data-combine="true" src="./nomie-lib/nomie-lab-analysis/corbin-general.js"></script>
   <!-- Nomie Datasources -->
-  <script src="./nomie-lib/nomie-lab-datasource/type_csv.js"></script>
-  <script src="./nomie-lib/nomie-lab-datasource/type_dropbox.js"></script>
-  <script src="./nomie-lib/nomie-lab-datasource/type_couchdb.js"></script>
-  <script src="./nomie-lib/nomie-lab-datasource/nomie-lab-datasource.js"></script>
+  <script data-combine="true" src="./nomie-lib/nomie-lab-datasource/type_csv.js"></script>
+  <script data-combine="true" src="./nomie-lib/nomie-lab-datasource/type_dropbox.js"></script>
+  <script data-combine="true" src="./nomie-lib/nomie-lab-datasource/type_couchdb.js"></script>
+  <script data-combine="true" src="./nomie-lib/nomie-lab-datasource/nomie-lab-datasource.js"></script>
   <!-- End Nomie Datasources -->
 
 
@@ -36,29 +38,36 @@
   <!-- Leaflet -->
 
   <!-- Nomie Lab Core -->
-  <script src="./nomie-lib/nomie-lab/nomie-lab.js"></script>
+  <script data-combine="true" src="./nomie-lib/nomie-lab/nomie-lab.js"></script>
   <!-- End Nomie Lab Core -->
 
   <!-- Angular -->
-  <script src="./app/app.js"></script>
-	<script src="./app/base/base.js"></script>
+  <script data-combine="true" src="./app/app.js"></script>
+	<script data-combine="true" src="./app/base/base.js"></script>
   <!-- /End Angular -->
 
+
   <!-- Modules -->
-  <script src="./app/modules/nomie-overview/nomie-overview.js"></script>
-  <script src="./app/modules/lab-map-me/lab-map-me.js"></script>
-  <script src="./app/modules/when-i/when-i.js"></script>
-  <script src="./app/modules/dear-diary/dear-diary.js"></script>
-  <script src="./app/modules/starter-module/starter-module.js"></script>
+  <script data-combine="true" src="./app/modules/dashboard/dashboard.js"></script>
+  <script data-combine="true" src="./app/modules/locations/locations.js"></script>
+  <script data-combine="true" src="./app/modules/tracker-detail/tracker-detail.js"></script>
+  <script data-combine="true" src="./app/modules/notes/notes.js"></script>
+  <script data-combine="true" src="./app/modules/starter-module/starter-module.js"></script>
+    <script data-combine="true" src="./app/modules/compare/compare.js"></script>
   <!-- /Modules -->
+
+  <!-- Components -->
+  <script data-combine="true" src="./app/components/timegrid/timegrid.js"></script>
+  <script data-combine="true" src="./app/components/eventmap/eventmap.js"></script>
+
 
   <!-- Styles -->
   <link href='https://fonts.googleapis.com/css?family=Source+Sans+Pro:400,700,600,300' rel='stylesheet' type='text/css'>
   <link rel="stylesheet" href="http://cdn.nomie.io.s3.amazonaws.com/icons/nomie.icons.css">
-  <link rel="stylesheet" href="./css/app.css">
+  <link data-combine="true" rel="stylesheet" href="./css/app.css">
   <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.4.0/css/font-awesome.min.css">
-  <link rel="stylesheet" href="./bower-lib/toastr/toastr.css" />
-  <link rel="stylesheet" href="./bower-lib/c3/c3.min.css">
+  <link data-combine="true" rel="stylesheet" href="./bower-lib/toastr/toastr.css" />
+  <link data-combine="true" rel="stylesheet" href="./bower-lib/c3/c3.min.css">
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/ionicons/2.0.1/css/ionicons.min.css">
   <!-- End Styles -->
 
@@ -75,11 +84,6 @@
       <div ng-view></div>
     </div>
 	</div>
-
-
-
-
-
 
 </body>
 </html>

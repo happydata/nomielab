@@ -1,0 +1,251 @@
+<style type="text/css">
+	/**
+   *  Need to include custom CSS in this module, add it here.
+   */
+
+	.ReviewModule {
+		position: absolute;
+		height: 100%;
+		width: 100%;
+	}
+
+	.main-content {
+
+	}
+
+  .tracker-name {
+    font-size: 16px;
+    text-align: center;
+  }
+
+  .statbox.disabled {
+    opacity: 0.5;
+  }
+  .overview .row .stats {
+    height:75px;
+  }
+  .overview .row .stats label {
+    font-size:12px;
+    text-transform: uppercase;
+    color:rgba(0,0,0,.2);
+    padding:0px;
+    margin:0px;
+    margin-bottom:0px;
+    margin-top:8px;
+  }
+  .overview .row .stats .value {
+    font-size: 34px;
+    line-height: 28px;
+    font-weight: 300;
+    margin-top:4px;
+  }
+  .overview .row .stats {
+    text-align: center;
+    padding-left:10px;
+    padding-right:5px;
+  }
+  .review-bar-chart {
+    position:absolute;
+    top: 0;
+    bottom:0;
+    right:0;
+    left:0;
+  }
+  .review-bar-chart .columns {
+  }
+  .review-bar-chart .column {
+    float : left;
+    height:63px;
+    position:relative;
+    display:block;
+  }
+  .review-bar-chart.timeOfDay .column {
+    width:4%;
+    /*overflow:hidden;*/
+  }
+  .review-bar-chart.timeOfDay {
+    background-color:rgba(0,0,0,.05);
+  }
+  .review-bar-chart.timeOfDay .column:nth-child(even) .column-label {
+    display:none;
+  }
+  .review-bar-chart.dayOfWeek .column {
+    width:14.1%;
+  }
+
+  .review-bar-chart .column .value {
+    position:absolute;
+    /*bottom:0px;*/
+    /*left: 2px;
+    right : 2px;*/
+    /*border-bottom:solid 1px rgba(0,0,0,.1);*/
+    bottom: 25px;
+    margin-top:0px;
+    margin-left:2px;
+    margin-right:2px;
+    border-bottom-left-radius: 0px;
+    border-bottom-right-radius: 0px;
+    border-top-left-radius: 4px;
+    border-top-right-radius: 4px;
+    border-bottom:solid 1px rgba(0,0,0,.1);
+  }
+
+  .review-bar-chart .column .column-label {
+    margin:0px;
+    padding:2px 1px !important;
+    font-size:10px !important;
+    color:rgba(0,0,0,.6) !important;
+    position:absolute;
+    bottom:4px;
+    left:0;
+  }
+</style>
+
+<div class="ReviewModule">
+
+	<!-- Module Header -->
+	<div class="module-header navbar navbar-default">
+		<div class="navbar-header hairline-right">
+			<div class="title navbar-text">Compare Trackers</div>
+		</div>
+    <ul class="navbar-nav nav pull-right">
+      <li ng-show="vm.selectedTrackers.length"><a ng-click="vm.unselectAll();" href>Unselect All</a></li>
+    </ul>
+		<div class="navbar-form hidden-xs">
+			<input type="text" ng-model="vm.searchTerm" class="margin-md-left hairline-off bg-faded-5 padding-md-left padding-md-right input-sm form-control rounded" placeholder="Search Trackers..." name="srch-term" id="srch-term">
+			<i class="ion-ios-search" style="position:relative; right:25px;"></i>
+		</div>
+	</div>
+	<!--/.module-header -->
+
+	<!-- Module Main Content -->
+  <div class="fixed fixed-2-8 fixed-has-header">
+		<div class="review-sidebar fixed-pane">
+			<div class="scroll-pane">
+				<ul class="list-group bg-white">
+					<li ng-hide="vm.trackerArray.length" class=" padding-lg text-center">
+						No Trackers Found
+					</li>
+					<li class="list-group-item tracker-item"
+              ng-class="{'active' : tracker.selected}"
+              ng-repeat="tracker in vm.trackerArray | orderBy : '-label' | filter : vm.searchTerm" ng-click="vm.toggleTracker(tracker)" ng-show="tracker.label" ng-class="{ 'active' : vm.selectedTracker == tracker }">
+						<i class="pull-left margin-sm-right nomie-icon nomie-icon-sm {{tracker.icon}}" style="color:{{tracker.color}}"></i>
+            <i class="pull-right nomie-icon nomie-icon-md" ng-class="{'ion-toggle-filled text-primary' : tracker.selected, 'ion-toggle text-faded-50' : !tracker.selected }"></i>
+            <h4 class="list-group-item-heading text-md text-ellipses">{{tracker.label}}</h4>
+
+					</li>
+				</ul>
+			</div>
+		</div>
+		<div class="review-content-view fixed-pane hairline-left">
+			<div class="scroll-pane">
+
+        <div class="scroll-pane-header header-bar">
+          <div class="buttons left btn-group ">
+            <button class="btn btn-default" ng-class="{'btn-primary' : vm.chartType == 'bar'}" ng-click="vm.toggleChartMode();">Bar</button>
+            <button class="btn btn-default" ng-class="{'btn-primary' : vm.chartType == 'area-spline'}" ng-click="vm.toggleChartMode();">Line</button>
+          </div>
+          <div class="buttons right">
+            <div class="btn-group ">
+              <button class="btn btn-default" ng-class="{'btn-primary' : vm.mode == 'day'}" ng-click="vm.setChartTimeMode('day');">Day</button>
+              <button class="btn btn-default" ng-class="{'btn-primary' : vm.mode == 'week'}" ng-click="vm.setChartTimeMode('week');">Week</button>
+              <button class="btn btn-default" ng-class="{'btn-primary' : vm.mode == 'month'}" ng-click="vm.setChartTimeMode('month');">Month</button>
+            </div>
+          </div>
+          <h1 class="title">2015 <span class="text-thin">Year in Review</span></h1>
+        </div>
+        <section id="chart-section">
+          <div id="chart-container" style="height:300px;">
+
+          </div>
+        </section>
+
+
+
+
+
+        <section class="overview statbox statbox-default margin-md padding-off"
+                  ng-repeat="tracker in vm.selectedTrackers | orderBy: '-stats.eventCount'"
+                  ng-click="vm.trackerStatClick(tracker);"
+                  ng-mouseover="vm.trackerStatHover(tracker)"
+                  ng-mouseleave="vm.trackerStatBlur()"
+                  ng-class="{'disabled' : tracker.hidden}">
+          <div class="row margin-off">
+            <div class="tracker-name col-sm-2 text-ellipses padding-sm" style="color:{{tracker.color}}">
+                <i class="nomie-icon nomie-icon-lg {{tracker.icon}}"></i> <br /> {{tracker.label}}
+            </div>
+            <div class="col-sm-1 col-xs-3 stats padding-sm-top">
+              <label class="text-ellipses">Total</label>
+              <div class="value">{{tracker.stats.eventCount | number}}</div>
+            </div>
+            <div class="col-sm-1 col-xs-3 stats padding-sm-top">
+              <label class="text-ellipses">Avg Day</label>
+              <div class="value">{{tracker.stats.eachDayAvg | number}}</div>
+            </div>
+            <div class="col-sm-1 col-xs-3 stats padding-sm-top">
+              <label class="text-ellipses">Max Day</label>
+              <div class="value">{{tracker.stats.eachDayMax | number}}</div>
+            </div>
+
+            <div class="col-sm-7 margin-off-right padding-off-right padding-off-top">
+              <timegrid color="{{tracker.color}}" timedata="tracker.stats.events" timekey="time"></timegrid>
+            </div>
+
+            <div class="hidden col-sm-2 stats padding-off">
+              <div class="review-bar-chart dayOfWeek padding-md-left">
+                <div class="columns">
+                  <div class="column ">
+                    <div class="value" style="background-color:{{tracker.color}};  height:{{tracker.stats.dayOfWeek.percents.sun}}%; xwidth:{{vm.getSize(50, tracker.stats.dayOfWeek.percents.sun)}}px">&nbsp;</div>
+                    <div class="column-label" for="">S</div>
+                  </div>
+                  <div class="column">
+                    <div class="value" style="background-color:{{tracker.color}};  height:{{tracker.stats.dayOfWeek.percents.mon}}%; xwidth:{{vm.getSize(50, tracker.stats.dayOfWeek.percents.mon)}}px">&nbsp;</div>
+                    <div class="column-label" for="">M</div>
+                  </div>
+                  <div class="column">
+                    <div class="value" style="background-color:{{tracker.color}};  height:{{tracker.stats.dayOfWeek.percents.tue}}%; xwidth:{{vm.getSize(50, tracker.stats.dayOfWeek.percents.tue)}}px">&nbsp;</div>
+                    <div class="column-label" for="">T</div>
+                  </div>
+                  <div class="column">
+                    <div class="value" style="background-color:{{tracker.color}};  height:{{tracker.stats.dayOfWeek.percents.wed}}%; xwidth:{{vm.getSize(50, tracker.stats.dayOfWeek.percents.wed)}}px">&nbsp;</div>
+                    <div class="column-label" for="">W</div>
+                  </div>
+                  <div class="column">
+                    <div class="value" style="background-color:{{tracker.color}};  height:{{tracker.stats.dayOfWeek.percents.thu}}%; xwidth:{{vm.getSize(50, tracker.stats.dayOfWeek.percents.thu)}}px">&nbsp;</div>
+                    <div class="column-label" for="">T</div>
+                  </div>
+                  <div class="column">
+                    <div class="value" style="background-color:{{tracker.color}};  height:{{tracker.stats.dayOfWeek.percents.fri}}%; xwidth:{{vm.getSize(50, tracker.stats.dayOfWeek.percents.fri)}}px">&nbsp;</div>
+                    <div class="column-label" for="">F</div>
+                  </div>
+                  <div class="column">
+                    <div class="value" style="background-color:{{tracker.color}};  height:{{tracker.stats.dayOfWeek.percents.sat}}%; xwidth:{{vm.getSize(50, tracker.stats.dayOfWeek.percents.sat)}}px">&nbsp;</div>
+                    <div class="column-label" for="">S</div>
+                  </div>
+                </div>
+              </div>
+            </div> <!-- End Day of WEek Column -->
+
+            <!-- Time of Day -->
+            <div class="hidden col-sm-4 stats padding-off">
+              <div class="review-bar-chart timeOfDay padding-sm-left margin-sm-left  hairline-left">
+                <div class="columns">
+                  <div class="column" ng-repeat="(key,index) in tracker.stats.timeOfDay.percents">
+                    <div class="value" style=" background-color:{{tracker.color}}; height:{{tracker.stats.timeOfDay.percents[key]}}%; ">&nbsp;</div>
+                    <div class="column-label">{{key.replace('am','').replace('pm','')}}</div>
+                  </div>
+                </div>
+              </div>
+            </div> <!-- end time of day -->
+
+
+          </div><!-- end statbox row -->
+        </section>
+
+			</div>
+			<!--/.scroll-pane -->
+		</div>
+	</div>
+	<!--/.main-content-->
+
+</div>

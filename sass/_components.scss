@@ -13,6 +13,152 @@
   z-index:100;
 }
 
+.mapLocationIcon {
+  border-radius:50px;
+  /* Permalink - use to edit and share this gradient: http://colorzilla.com/gradient-editor/#7abcff+0,4096ee+100&0.61+1,0+100 */
+  /* Permalink - use to edit and share this gradient: http://colorzilla.com/gradient-editor/#1093e5+0,4096ee+100&0.79+1,0.47+6,0+83 */
+  background: -moz-radial-gradient(center, ellipse cover, rgba(16,147,229,0.79) 0%, rgba(16,147,229,0.79) 1%, rgba(18,147,229,0.47) 6%, rgba(56,149,236,0) 83%, rgba(64,150,238,0) 100%); /* FF3.6-15 */
+  background: -webkit-radial-gradient(center, ellipse cover, rgba(16,147,229,0.79) 0%,rgba(16,147,229,0.79) 1%,rgba(18,147,229,0.47) 6%,rgba(56,149,236,0) 83%,rgba(64,150,238,0) 100%); /* Chrome10-25,Safari5.1-6 */
+  background: radial-gradient(ellipse at center, rgba(16,147,229,0.79) 0%,rgba(16,147,229,0.79) 1%,rgba(18,147,229,0.47) 6%,rgba(56,149,236,0) 83%,rgba(64,150,238,0) 100%); /* W3C, IE10+, FF16+, Chrome26+, Opera12+, Safari7+ */
+  filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#c91093e5', endColorstr='#004096ee',GradientType=1 ); /* IE6-9 fallback on horizontal gradient */
+}
+
+.timegrid {
+  width : 100%;
+  background-color:rgb(255,255,255);
+  tr:hover {
+    background:rgba(0,0,0,.04);
+  }
+  tr:nth-child(even) {
+    background-color:rgba(0,0,0,.03);
+  }
+  ball {
+    display:inline-block;
+    border-radius:50%;
+  }
+  td {
+    color:rgba(0,0,0,.6);
+    text-align: center;
+    font-weight:bold;
+    padding:1px;
+    width: 1%;
+    border:solid 0px rgba(0,0,0,.06);
+    font-size:6px;
+    text-transform: uppercase;
+  }
+  &.big {
+    td {
+      font-size:12px;
+    }
+  }
+}
+
+.btn-clear {
+  background:transparent;
+  padding:0px 10px;
+  font-size:18px;
+  font-weight:200;
+  i {
+    margin-right:3px;
+  }
+}
+
+/** Header bar **/
+$header-bar-gap : 2px;
+.header-bar {
+  border-bottom:solid 1px rgba(0,0,0,.1);
+  height : $navbar-height;
+  position:relative;
+  .title {
+    position:absolute;
+    left:20px;
+    right:20px;
+    text-align: center;
+    @extend .text-ellipses;
+    line-height:$navbar-height - 10;
+    font-weight:600;
+    small {
+      font-weight:200;
+    }
+  }
+  .buttons {
+    position:absolute;
+    top:0;
+    bottom:0;
+    width:50%;
+    z-index:110;
+    padding-top:10px;
+    .btn-clear {
+      line-height:$navbar-height - 20px;
+    }
+
+  }
+  .buttons.left {
+    left:10px;
+  }
+  .buttons.right {
+    right : 10px;
+    .btn, a {
+      float:right;
+      margin-right:5px;
+    }
+    .btn-group {
+      float:right;
+      .btn {
+        float:left;
+        margin-right:0
+      }
+    }
+
+  }
+
+} //end header bar
+
+h1.title {
+  padding:5px 0;
+  margin:0;
+  font-size:$font-size-base + 4;
+}
+
+._nomiecon {
+  font-size:22px;
+  line-height:36px;
+  width:36px;
+  text-align: center;
+  &.nomie-icon-xl {
+    font-size:50px;
+    line-height:70px;
+    width:70px;
+  }
+  &.nomie-icon-lg {
+    font-size:35px;
+    line-height:45px;
+    width:45px;
+  }
+  &.nomie-icon-md {
+    font-size:22px;
+    line-height:25px;
+    width:25px;
+  }
+  &.nomie-icon-sm {
+    font-size:16px;
+    line-height:22px;
+    width:22px;
+  }
+  &.nomie-icon-xs {
+    font-size:10px;
+    line-height:20px;
+    width:20px;
+  }
+}
+
+.nomie-icon {
+  @extend ._nomiecon;
+  &::before, &::after {
+    @extend ._nomiecon;
+  }
+}
+
 .box-shadow {
   box-shadow:0px 1px 2px rgba(0,0,0,.1);
 }

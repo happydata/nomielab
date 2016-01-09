@@ -106,6 +106,13 @@ var NomieLabDatasource = function(datasourceConfig) {
         pack.notes = notes;
         pub.getTrackers({}, function(trackersError, trackers) {
           pack.trackers = trackers;
+          pack.trackerArray = function(trackerObjs) {
+            var r = [];
+            for(var i in trackerObjs) {
+              r.push(trackerObjs[i]);
+            }
+            return r;
+          }(trackers);
           callback(null, pack);
         })
       });

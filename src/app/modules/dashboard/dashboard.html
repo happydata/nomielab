@@ -9,27 +9,34 @@
       </ul>
     </ul>
 </div>
+
+<section class="padding-xl">
+  <div id="overview-totals-chart" style="height:500px;">
+
+  </div>
+</section>
+
 <section class="bg-faded-5 padding-xl">
   <div class="row">
     <div class="col-xs-4">
       <div class="statbox statbox-default">
         <i class="ion-ios-world-outline pull-left text-xxl margin-md-right text-faded hidden-xs"></i>
         <h2 class="margin-off text-sm text-uppercase text-bold">Events</h2>
-        <div class="text-xl text-thin">{{vm.overview.events.count | number}}</div>
+        <div class="text-xl text-thin">{{vm.dashboard.events.count | number}}</div>
       </div>
     </div>
     <div class="col-xs-4">
       <div class="statbox statbox-default">
         <i class="ion-ios-paper-outline pull-left text-xxl margin-md-right text-faded hidden-xs"></i>
         <h2 class="margin-off text-sm text-uppercase margin-sm-top text-bold">Notes</h2>
-        <div class="text-xl text-thin">{{vm.overview.notes.count | number}}</div>
+        <div class="text-xl text-thin">{{vm.dashboard.notes.count | number}}</div>
       </div>
     </div>
     <div class="col-xs-4">
       <div class="statbox statbox-default">
         <i class="ion-ios-keypad-outline pull-left text-xxl margin-md-right text-faded hidden-xs"></i>
         <h2 class="margin-off text-sm text-uppercase text-bold">Trackers</h2>
-        <div class="text-xl text-thin">{{vm.overview.trackers.count | number}}</div>
+        <div class="text-xl text-thin">{{vm.dashboard.trackers.count | number}}</div>
       </div>
     </div>
   </div>
@@ -40,14 +47,14 @@
     <div class="col-xs-4">
       <div class="statbox statbox-default">
         <h2 class="text-md text-uppercase padding-off margin-off-top  text-faded">Positive/Negative</h2>
-        <div id="overview-chart-pie"></div>
+        <div id="dashboard-chart-pie"></div>
       </div>
 
     </div>
     <div class="col-xs-8">
       <div class="statbox statbox-default">
-        <h2 class="text-md text-uppercase padding-off margin-off-top  text-faded">Time of Day</h2>
-        <div id="overview-dow-pie"></div>
+        <h2 class="text-md text-uppercase padding-off margin-off-top  text-faded">Day of Week</h2>
+        <div id="dashboard-dow-pie"></div>
       </div>
 
     </div>

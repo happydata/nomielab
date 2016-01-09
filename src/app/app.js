@@ -6,7 +6,10 @@ var NomieLab = new NomieLabCore();
 var NomieLabApp = angular.module('NomieLab',[
 	'ngRoute',
 	'angularMoment',
-	'BaseModule'
+	'BaseModule',
+  'chartComponents',
+  'eventmapModule',
+  'ui.bootstrap'
 ]).config(function($routeProvider, $locationProvider) {
 	$routeProvider
    .when('/home', {

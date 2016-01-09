@@ -7,15 +7,11 @@
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
   },
-  "author": "Brandon Corbin <brandon@icorbin.com>",
+  "author": "Brandon Corbin <brandon@happydata.com>",
   "license": "MIT",
   "dependencies": {
     "browser-sync": "^2.8.2",
-    "gulp-jsdoc": "^0.1.4",
     "gulp-sass": "^2.0.4",
     "ng-annotate": "^1.0.2"
-  },
-  "devDependencies": {
-    "gulp-electron": "0.0.9"
   }
 }

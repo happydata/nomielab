@@ -1,24 +1,24 @@
 var hack;
 /**
- * Nomie MapMe Module
- * @namespace MapMeModule
+ * Nomie Locations Module
+ * @namespace LocationsModule
  */
 NomieLabApp.config(function($routeProvider, $locationProvider) {
 	$routeProvider
-   .when('/mapme', {
-    templateUrl		: './app/modules/lab-map-me/lab-map-me.html',
-    controller		: 'MapMeController',
+   .when('/locations', {
+    templateUrl		: './app/modules/locations/locations.html',
+    controller		: 'LocationsController',
   });
 });
 
 /**
- * Nomie MapMe Controller
- * @memberof MapMeModule
- * @namespace MapMeController
+ * Nomie Locations Controller
+ * @memberof LocationsModule
+ * @namespace LocationsController
  */
 NomieLabApp
-	.controller('MapMeController', ['$scope', '$rootScope', '$timeout', 'MapMeService','$interval',
-	function ($scope, $rootScope, $timeout, MapMeService,$interval) {
+	.controller('LocationsController', ['$scope', '$rootScope', '$timeout', 'LocationsService','$interval', 'BaseService',
+	function ($scope, $rootScope, $timeout, LocationsService,$interval, BaseService) {
 		$scope.vm = {};
 
     $scope.vm.mapme = {
@@ -55,6 +55,8 @@ NomieLabApp
       startDate : null,
       endDate : null
     }
+
+
 
     var eventQuery;
 
@@ -108,7 +110,22 @@ NomieLabApp
       $interval.cancel(playInterval);
     }
 
+    $scope.locationCache = {};
+    $scope.vm.getLocation = function(lat,lng,callback) {
+      var locationSlot = lat+'|'+lng;
+      if($scope.locationCache.hasOwnProperty(locationSlot)) {
+        callback(null, $scope.locationCache[locationSlot]);
+      } else {
+        BaseService.locations.getLocation(lat,lng, function(err, locationData) {
+          $scope.locationCache[locationSlot] = locationData;
+          callback(null, locationData);
+        });
+      }
+    };
 
+    $scope.vm.panTo = function(lat,lng) {
+      $scope.map.panTo(new L.LatLng(lat,lng));
+    }
     $scope.vm.showEvent = function(event) {
       $scope.vm.event = event;
       $scope.map.panTo(new L.LatLng(event.geo[0],event.geo[1]));
@@ -117,32 +134,119 @@ NomieLabApp
         $scope.vm.runningScore = $scope.vm.runningScore + event.charge;
         if(event.charge>0) {
           $scope.vm.positiveScore = $scope.vm.positiveScore + event.charge;
-          eventIcon = MapMeService.positiveIcon
+          eventIcon = LocationsService.positiveIcon
         } else if(event.charge<0) {
           $scope.vm.negativeScore = $scope.vm.negativeScore + event.charge;
-          eventIcon = MapMeService.negativeIcon;
+          eventIcon = LocationsService.negativeIcon;
         } else {
           $scope.vm.neutralScore = $scope.vm.neutralScore + event.charge;
-          eventIcon = MapMeService.neutralIcon;
+          eventIcon = LocationsService.neutralIcon;
         }
         var m = L.marker(event.geo, { icon: eventIcon }).addTo($scope.map);
         $timeout(function() {
           $scope.map.removeLayer(m);
         },1000);
       });
-      marker.setLatLng(event.geo).addTo($scope.map);
+      //marker.setLatLng(event.geo).addTo($scope.map);
     }
 
+
+
+    $scope.vm.showingAll = false;
+    $scope.vm.locations = [];
+    var showAllClusterLayer;
+
+
+
     $scope.vm.showAll = function() {
-      console.log("Showing All")
-      for(var i = 0; i<$scope.vm.mapme.events.data.length; i++) {
-        console.log("Element");
-        var event = $scope.vm.mapme.events.data[i];
-        if(event.geo.length>0) {
-          L.marker(event.geo).bindPopup("Tracker Name").addTo($scope.map);
+
+      if($scope.vm.showingAll == false) {
+        $scope.vm.showingAll = true;
+        console.log("Showing All");
+        var cluster = {};
+
+        $scope.locationCluster = {};
+
+        showAllClusterLayer = [];
+
+        for(var i = 0; i<$scope.vm.mapme.events.data.length; i++) {
+          var event = $scope.vm.mapme.events.data[i];
+          if(event.geo.length>0) {
+            var lat = parseFloat(event.geo[0].toFixed(3));
+            var lng = parseFloat(event.geo[1].toFixed(3));
+            if(cluster.hasOwnProperty(lat+'|'+lng)) {
+              cluster[lat+'|'+lng].count++;
+              cluster[lat+'|'+lng].charge = cluster[lat+'|'+lng].charge+event.charge;
+            } else {
+              cluster[lat+'|'+lng]= { count : 1, charge : event.charge };
+            }
+            /**
+            * Location Clustering
+            * "Rounding" a lat long to a common set of locations.
+            */
+
+            var locationLat = parseFloat(event.geo[0].toFixed(1));
+            var locationLng = parseFloat(event.geo[1].toFixed(1));
+            var locationSlot = locationLat + '|' + locationLng;
+            if($scope.locationCluster.hasOwnProperty(locationSlot)) {
+              $scope.locationCluster[locationSlot].count++;
+              $scope.locationCluster[locationSlot].charge = $scope.locationCluster[locationSlot].charge+event.charge;
+            } else {
+              $scope.locationCluster[locationSlot]= { count : 1, charge : event.charge, lat : lat, lng : lng };
+            }
+
+          } // end if has geo
+        } // end looping over events;
+
+        console.log("Location Cluster", $scope.locationCluster);
+        // Get Location Names;
+        function getLocation(geo, callback) {
+          console.log("getting location for", geo);
+          var latlng = geo.split('|');
+          var thisGeo = geo;
+          $scope.vm.getLocation(latlng[0], latlng[1], function(err, locationData) {
+            $timeout(function() {
+              $scope.locationCluster[thisGeo].lookup = locationData;
+              console.log("Got location for ", $scope.locationCluster[thisGeo]);
+            },120);
+          });
+        }
+        var c = 0;
+        for(var geo in $scope.locationCluster) {
+        //  if(c<10) {
+            getLocation(geo);
+          // }
+          // c++;
+        }
+
+
+
+
+        for(var l in cluster) {
+          var eventCluster = cluster[l];
+          if(eventCluster.charge>0) {
+            eventIcon = LocationsService.positiveIcon
+          } else if(eventCluster.charge<0) {
+            eventIcon = LocationsService.negativeIcon;
+          } else {
+            eventIcon = LocationsService.neutralIcon;
+          }
+          var m = L.marker(l.split('|'), { icon: eventIcon });
+          showAllClusterLayer.push(m);
+          m.addTo($scope.map);
+        } // end looping over cluster
+
+      } else {
+        $scope.vm.showingAll = false;
+        for(var m in showAllClusterLayer) {
+          $scope.map.removeLayer(showAllClusterLayer[m]);
         }
       }
-    }
+
+
+
+    } // end loop over events;
+
 
     $scope.vm.nextEvent = function() {
       for(var i = $scope.vm.position; i<$scope.vm.mapme.events.data.length; i++) {
@@ -184,12 +288,12 @@ NomieLabApp
 	} // end main home controller function
 ]);
 /**
- * Nomie MapMe Service
- * @memberof MapMeModule
- * @namespace MapMeService
+ * Nomie Locations Service
+ * @memberof LocationsModule
+ * @namespace LocationsService
  */
 NomieLabApp
-	.service('MapMeService', [ '$rootScope', '$timeout', 'BaseService',
+	.service('LocationsService', [ '$rootScope', '$timeout', 'BaseService',
 	function ($rootScope, $timeout, BaseService) {
 		var self = this;
 

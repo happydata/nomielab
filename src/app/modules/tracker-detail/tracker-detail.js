@@ -1,27 +1,30 @@
 var hack;
 /**
- * Nomie WhenI Module
- * @namespace WhenIModule
+ * Nomie TrackerDetail Module
+ * @namespace TrackerDetailModule
  */
 NomieLabApp.config(function($routeProvider, $locationProvider) {
 	$routeProvider
-   .when('/when', {
-    templateUrl		: './app/modules/when-i/when-i.html',
-    controller		: 'WhenIController',
-  });
+   .when('/tracker-detail', {
+    templateUrl		: './app/modules/tracker-detail/tracker-detail.html',
+    controller		: 'TrackerDetailController',
+  }).when('/tracker-detail/:id', {
+   templateUrl		: './app/modules/tracker-detail/tracker-detail.html',
+   controller		: 'TrackerDetailController',
+ });
 });
 
 /**
- * Nomie WhenI Controller
- * @memberof WhenIModule
- * @namespace WhenIController
+ * Nomie TrackerDetail Controller
+ * @memberof TrackerDetailModule
+ * @namespace TrackerDetailController
  */
 NomieLabApp
-	.controller('WhenIController', ['$scope', '$rootScope', '$timeout', 'WhenIService','$interval',
-	function ($scope, $rootScope, $timeout, WhenIService,$interval) {
+	.controller('TrackerDetailController', ['$scope', '$rootScope', '$timeout', 'TrackerDetailService','$interval','$routeParams',
+	function ($scope, $rootScope, $timeout, TrackerDetailService,$interval,$routeParams) {
 		$scope.vm = {};
 
-    $scope.vm.WhenI = {
+    $scope.vm.TrackerDetail = {
       trackers : {
         count : 0,
         data : [],
@@ -40,8 +43,9 @@ NomieLabApp
 
 
     $scope.vm.init = function() {
-      WhenIService.init(function(err, datapack){
-        console.log("WhenIService Init", datapack);
+
+      TrackerDetailService.init(function(err, datapack){
+        console.log("TrackerDetailService Init", datapack);
         $timeout(function() {
           $scope.vm.trackers = datapack.trackers;
           $scope.vm.trackerArray = function(trackerObjs) {
@@ -51,6 +55,11 @@ NomieLabApp
             }
             return r;
           }(datapack.trackers);
+
+          if($routeParams.id) {
+            $scope.vm.selectTracker(datapack.trackers[$routeParams.id]);
+          }
+
         },120);
         // Temp Auto filter
       });
@@ -58,13 +67,14 @@ NomieLabApp
 
     $scope.vm.selectedTracker = null;
     $scope.vm.selectTracker = function(tracker) {
+      console.log("Tracker Selected", tracker);
       $scope.vm.selectedTracker = tracker;
-      $scope.vm.related = WhenIService.findRelatedTrackers(tracker._id, 10);
-      console.log("Related to "+tracker.label+" ", $scope.vm.related);
+      //$scope.vm.related = TrackerDetailService.findRelatedTrackers(tracker._id, 10);
+      //console.log("Related to "+tracker.label+" ", $scope.vm.related);
     };
 
     // $scope.vm.filter = function() {
-    //   WhenIService.findTimesWhenMoreThanUsual({}, function(err, data) {
+    //   TrackerDetailService.findTimesWhenMoreThanUsual({}, function(err, data) {
     //     console.log("Nice work! if theres data... im in the controller vm.filter", err, data);
     //   });
     // }
@@ -86,32 +96,32 @@ NomieLabApp
 
 
 /**
- * Nomie WhenI Service
- * @memberof WhenIModule
- * @namespace WhenIService
+ * Nomie TrackerDetail Service
+ * @memberof TrackerDetailModule
+ * @namespace TrackerDetailService
  */
 NomieLabApp
-	.service('WhenIService', [ '$rootScope', '$timeout', 'BaseService',
+	.service('TrackerDetailService', [ '$rootScope', '$timeout', 'BaseService',
 	function ($rootScope, $timeout, BaseService) {
 		var self = this;
     self.data = {};
 
     self.init = function(callback) {
       NomieLab.currentDatasource.getAllData(function(err, datapack) {
-        console.log("NomieLab.currentDatasource.getAllData()", err, datapack);
+      //  console.log("NomieLab.currentDatasource.getAllData()", err, datapack);
           self.data = datapack;
           eventQuery = JsonQuery(datapack.events);
           self.data.eventQuery = eventQuery;
 
           self.analyzeTrackers();``
-          console.log("WhenIService init()", self.data);
+        //  console.log("TrackerDetailService init()", self.data);
           callback(null, self.data);
       });
     }; //self.init
 
     self.analyzeTrackers = function() {
       for(var i in self.data.trackers) {
-        self.data.trackers[i].stats = self.generateTrackerStats(i);
+        self.data.trackers[i].stats = self.generateTrackerStats(i, self.data.eventQuery);
       }
     }
 
@@ -126,50 +136,7 @@ NomieLabApp
 
     }; // end findTimesWhenMoreThanUsual
 
-    self.generateTrackerStats = function(trackerId) {
-      var filter = {};
-      filter.trackerId = trackerId;
-
-      var events = self.data.eventQuery.where({'parent' : filter.trackerId}).exec();
-      var eventCounts = {};
-      for(var i in events) {
-        var event = events[i];
-        var time = moment(event.time).startOf('day').toDate().getTime();
-        if(eventCounts.hasOwnProperty(time)) {
-          eventCounts[time]++;
-        } else {
-          eventCounts[time]=1;
-        }
-      }
-      var eachDay = self.fillInCalendar(eventCounts);
-      var eachDayAverage = Math.ceil(jStat.mean(self.toValueArray(eachDay)));
-      var eachDayMax = Math.ceil(jStat.max(self.toValueArray(eachDay)));
-      var eachDayMin = Math.floor(jStat.min(self.toValueArray(eachDay)));
-      var variance = 0.4;
-
-      var outliers = {
-        moreThanTimes : [],
-        lessThanTimes : []
-      }
-
-      for(var o in eachDay) {
-        if(eachDay[o] > (eachDayAverage+(eachDayAverage*variance))) {
-          outliers.moreThanTimes.push({ time : parseInt(o), value: eachDay[o]});
-        } else if(eachDay[o] < (eachDayAverage-(eachDayAverage*variance))) {
-          outliers.lessThanTimes.push({ time : parseInt(o), value: eachDay[o]});
-        }
-      }
-
-      var trackerData = {
-        eachDay : eachDay,
-        eachDayAvg : eachDayAverage,
-        eachDayMax : eachDayMax,
-        eachDayMin : eachDayMin,
-        outliers : outliers
-      };
-
-      return trackerData;
-    };
+    self.generateTrackerStats = BaseService.generateTrackerStats;
 
     self.compareAll = function() {
 
@@ -219,6 +186,7 @@ NomieLabApp
               moreThanToMoreThan : self.matchTimeSlotArrays(tracker.stats.outliers.moreThanTimes, tracker2.stats.outliers.moreThanTimes),
               lessThanToLessThan : self.matchTimeSlotArrays(tracker.stats.outliers.lessThanTimes, tracker2.stats.outliers.lessThanTimes)
             }
+            //matches.lessLessMoreMore =
             var clone = angular.copy(tracker2); //Get its own copy to work with.
             if(matches.moreThanToMoreThan>0) {
               related.moreThanToMoreThan.push({
@@ -287,26 +255,8 @@ NomieLabApp
       return matches;
     };
 
-    self.fillInCalendar = function(timeSlotArray) {
-      var times = Object.keys(timeSlotArray);
-      var start = moment(parseInt(times[0]));
-      var end = moment(parseInt(times[times.length-1]));
-      var diff = end.diff(start, 'days');
-      for(var i=0;i<diff;i++) {
-        var timestamp = moment(start).add(i,'days').toDate().getTime();
-        if(!timeSlotArray.hasOwnProperty(timestamp)) {
-          timeSlotArray[timestamp]=0;
-        }
-      }
-      return timeSlotArray;
-    }
-    self.toValueArray = function(timeSlotArray) {
-      var rarr = [];
-      for(var i in timeSlotArray) {
-        rarr.push(timeSlotArray[i]);
-      }
-      return rarr;
-    }
+    self.fillInCalendar = BaseService.fillInCalendar;
+    self.toValueArray = BaseService.toValueArray;
 
 
 		return self;

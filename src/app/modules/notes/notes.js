@@ -4,18 +4,18 @@
 
 NomieLabApp.config(function($routeProvider, $locationProvider) {
 	$routeProvider
-   .when('/diary', { // The URL path that should be used for this module
-    templateUrl		: './app/modules/dear-diary/dear-diary.html',
-    controller		: 'DearDiaryController',
+   .when('/notes', { // The URL path that should be used for this module
+    templateUrl		: './app/modules/notes/notes.html',
+    controller		: 'NotesController',
   });
 });
 
 /**
- * Nomie DearDiary Controller
+ * Nomie Notes Controller
  */
 NomieLabApp
-	.controller('DearDiaryController', ['$scope', '$rootScope', '$timeout','DearDiaryService',
-	function ($scope, $rootScope, $timeout, DearDiaryService) {
+	.controller('NotesController', ['$scope', '$rootScope', '$timeout','NotesService',
+	function ($scope, $rootScope, $timeout, NotesService) {
 
     $scope.vm = {
       orderBy : '-time'
@@ -33,11 +33,11 @@ NomieLabApp
      * Initialize the Module
      * @function init
      */
-    $scope.trim = DearDiaryService.trim;
+    $scope.trim = NotesService.trim;
 
     $scope.vm.init = function() {
 
-      DearDiaryService.getNotes({}, function(err, data) {
+      NotesService.getNotes({}, function(err, data) {
         if(!err) {
           $timeout(function() {
             $scope.vm.notes = data.notes;
@@ -50,7 +50,7 @@ NomieLabApp
             message : err.message
           });
         }
-      }); // DearDiaryService.getNotes();
+      }); // NotesService.getNotes();
     }; // scope.vm.init()
 
     $scope.vm.showNote = function(note) {
@@ -124,12 +124,12 @@ NomieLabApp
 ]);
 
 /**
- * Nomie DearDiary Service
- * @memberof DearDiaryModule
- * @namespace DearDiaryService
+ * Nomie Notes Service
+ * @memberof NotesModule
+ * @namespace NotesService
  */
 NomieLabApp
-	.service('DearDiaryService', [ '$rootScope', '$timeout', 'BaseService',
+	.service('NotesService', [ '$rootScope', '$timeout', 'BaseService',
 	function ($rootScope, $timeout, BaseService) {
 		var self = this;
 

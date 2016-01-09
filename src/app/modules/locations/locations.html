@@ -1,0 +1,265 @@
+<style type="text/css">
+	.cicon-container {
+		position: absolute;
+		top: 90px;
+		right: 20px;
+		width: 100px;
+		height: 100px;
+		line-height: 10px;
+		border-radius: 50px;
+		background-color: rgba(0, 0, 0, .2);
+		color: #FFF;
+		z-index: 100;
+		text-align: center;
+	}
+
+	.icon-container {
+		position: absolute;
+		top: 46%;
+		right: 50%;
+		width: 50px;
+		height: 50px;
+		line-height: 10px;
+		border-radius: 50px;
+		background-color: rgba(0, 0, 0, .2);
+		color: #FFF;
+		z-index: 100;
+		text-align: center;
+		left: 50%;
+		margin-left: -50px;
+	}
+
+	.event-label {
+		position: absolute;
+		top: 44%;
+		right: 50%;
+		z-index: 100;
+		left: 51%;
+		width: 275px;
+		font-size: 20px;
+	}
+
+	.icon-container i,
+	.icon-container i::after {
+		font-size: 30px;
+		line-height: 50px;
+	}
+
+	.score {
+		font-size: 33px;
+	}
+
+	.score.positive {
+		color: #33990f
+	}
+
+	.scroll-pane {
+		position: absolute;
+		top: 40px;
+		bottom: 0px;
+		left: 0;
+		right: 0;
+		overflow: scroll;
+	}
+
+	.score.negative {
+		color: #d75c5c;
+	}
+
+	.mapme .map-container {
+		position: absolute;
+		bottom: 0;
+		left: 0;
+		right: 0;
+		top: 55px;
+	}
+
+	.mapme .currentEvent {
+		position: absolute;
+		top: 90px;
+		left: 50px;
+		text-align: right;
+		right: 150px;
+		z-index: 100;
+	}
+
+	.mapme {
+		position: absolute;
+		top: 0px;
+		bottom: 0px;
+		left: 0px;
+		right: 0px;
+	}
+
+	.statbox-location {
+		position: absolute;
+		top: 80px;
+		right: 20px;
+		bottom: 20px;
+		padding: 10px;
+		z-index: 110;
+		min-width: 280px;
+	}
+
+	.progress-bar {}
+
+	.day-progress {
+		z-index: 112;
+		position: absolute;
+		bottom: 10px;
+		left: 20px;
+		right: 20px;
+		background-color: rgba(0, 0, 0, .2);
+	}
+
+	.progress-bar.position-01 {
+		width: 5%;
+	}
+
+	.progress-bar.position-02 {
+		width: 10%;
+	}
+
+	.progress-bar.position-03 {
+		width: 15%;
+	}
+
+	.progress-bar.position-04 {
+		width: 20%;
+	}
+
+	.progress-bar.position-05 {
+		width: 25%;
+	}
+
+	.progress-bar.position-06 {
+		width: 25%;
+	}
+
+	.progress-bar.position-07 {
+		width: 30%;
+	}
+
+	.progress-bar.position-08 {
+		width: 35%;
+	}
+
+	.progress-bar.position-09 {
+		width: 40%;
+	}
+
+	.progress-bar.position-10 {
+		width: 45%;
+	}
+
+	.progress-bar.position-11 {
+		width: 50%;
+	}
+
+	.progress-bar.position-12 {
+		width: 55%;
+	}
+
+	.progress-bar.position-13 {
+		width: 60%;
+	}
+
+	.progress-bar.position-14 {
+		width: 65%;
+	}
+
+	.progress-bar.position-15 {
+		width: 70%;
+	}
+
+	.progress-bar.position-16 {
+		width: 75%;
+	}
+
+	.progress-bar.position-17 {
+		width: 80%;
+	}
+
+	.progress-bar.position-18 {
+		width: 85%;
+	}
+
+	.progress-bar.position-19 {
+		width: 90%;
+	}
+
+	.progress-bar.position-20 {
+		width: 95%;
+	}
+
+	.progress-bar.position-21 {
+		width: 96%;
+	}
+
+	.progress-bar.position-22 {
+		width: 97%;
+	}
+
+	.progress-bar.position-23 {
+		width: 99%;
+	}
+</style>
+
+<div class="mapme">
+
+	<div class="navbar navbar-default padding-sm-bottom">
+		<div class="row padding-sm-top margin-off">
+			<div class="col-xs-1">
+				<button class="btn btn-primary btn-block" ng-click="vm.play()" ng-show="!vm.playing"><i class="fa fa-play"></i></button>
+				<button class="btn btn-primary btn-block" ng-click="vm.pause()" ng-show="vm.playing"><i class="fa fa-pause"></i></button>
+			</div>
+			<div class="col-xs-9 padding-sm-top">
+				<input type="range" ng-model="vm.rangePosition" value="{{vm.rangePosition}}" step="1" max="vm.max" ng-change="vm.changeTime()" />
+			</div>
+			<div class="col-xs-2 padding-xs-right">
+				<div class="btn-group" style="">
+					<button class="btn btn-primary" style="width:49%" ng-click="vm.previousEvent()"><i class="fa fa-backward"></i></button>
+					<button class="btn btn-primary" style="width:49%" ng-click="vm.nextEvent()"><i class="fa fa-forward"></i></button>
+				</div>
+				<button class="btn btn-primary" ng-click="vm.showAll()" ng-hide="vm.showingAll">All</button>
+				<button class="btn btn-primary ion-close" ng-click="vm.showAll()" ng-show="vm.showingAll"></button>
+			</div>
+		</div>
+	</div>
+
+	<!-- ICON and TITLE -->
+	<div class="text-xl padding-md-top text-bold event-label"  ng-hide="vm.showingAll">{{vm.mapme.trackers.data[vm.event.parent].label}}</div>
+	<div class="icon-container" style="background-color:{{vm.mapme.trackers.data[vm.event.parent].color}}" ng-hide="vm.showingAll">
+		<i class="{{vm.mapme.trackers.data[vm.event.parent].icon}}"></i>
+	</div>
+	<!-- // ICON and TITLE -->
+
+	<div class="currentEvent" ng-hide="vm.showingAll">
+		<div class="pull-left text-left  padding-md-top  text-uppercase">
+			<strong class="text-xxl">{{vm.event.time | amDateFormat:'dddd'}}</strong>
+			<div class="text-xl">{{vm.event.time | amDateFormat:'MMM Do YYYY'}}</div>
+		</div>
+	</div>
+
+	<div class="statbox-location statbox" ng-show="vm.showingAll">
+		<span class="pull-right ">Events</span>
+		<div class="statbox-header">Locations</div>
+		<div class="scroll-pane">
+			<ul class="list-group">
+				<li ng-click="vm.panTo(location.lat, location.lng)" class="list-group-item" ng-repeat="location in locationCluster | toArray | orderBy : '-count'">
+					<span class="title">{{location.lookup.address.city || location.lookup.address.hamlet || location.lookup.address.county }}, {{location.lookup.address.state}}</span>
+					<span class="pull-right">{{location.count}}</span>
+				</li>
+			</ul>
+		</div>
+	</div>
+	<!-- MAP -->
+	<div class="day-progress progress" ng-hide="vm.showingAll">
+		<div class="progress-bar progress-bar-striped active position-{{vm.event.time |  amDateFormat:'HH'}}" role="progressbar" aria-valuemin="0" aria-valuemax="100">
+			{{vm.event.time | amDateFormat:'h:mm:ss a'}}
+		</div>
+	</div>
+	<section class="map-container" id="mapme-map">
+
+	</section>
+</div>

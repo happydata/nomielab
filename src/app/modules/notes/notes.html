@@ -3,18 +3,16 @@
    *  Need to include custom CSS in this module, add it here.
    */
   .DearDiaryModule {
-    position:absolute;
-    height:100%;
-    width:100%;
+
   }
-  .main-content {
+  /*.main-content {
     position:absolute;
     top:50px;
     bottom:0;
     right:0;
     left:0;
     z-index:0;
-  }
+  }*/
   .tag {
     text-decoration: none;
     color:#000;
@@ -37,7 +35,7 @@
   .rounded {
     border-radius:30px;
   }
-  .diary-sidebar {
+  /*.diary-sidebar {
     width:30%;
     position:absolute;
     top:0;
@@ -45,16 +43,16 @@
     left:0;
     background:#FFF;
     overflow:scroll;
-  }
-  .diary-content-view {
+  }*/
+  /*.diary-content-view {
     position:absolute;
     left:30%;
     right:0;
     bottom:0;
     top:0;
     overflow: scroll;
-  }
-  .scroll-pane {
+  }*/
+  /*.scroll-pane {
     position:absolute;
     top:2px;
     bottom:0;
@@ -64,7 +62,7 @@
   }
   .scroll-pane.has-header {
     top:50px;
-  }
+  }*/
 </style>
 
 <div class="DearDiaryModule">
@@ -83,10 +81,10 @@
   </div> <!--/.module-header -->
 
   <!-- Module Main Content -->
-  <div class="main-content">
-    <div class="diary-sidebar">
+  <div class="fixed fixed-3-7 fixed-has-header">
+    <div class="diary-sidebar fixed-pane">
       <div class="bg-faded-5 hairline-off">
-        <div class="padding-sm">
+        <div class="padding-sm hairline-bottom">
           <input type="text" ng-model="vm.searchTerm" class="hairline-off bg-faded-5 input-sm form-control rounded" placeholder="Search Notes..." name="srch-term" id="srch-term">
           <i class="ion-ios-search" style="position:absolute; top:15px; right:25px;"></i>
 
@@ -114,17 +112,21 @@
         </ul>
       </div>
     </div>
-    <div class="diary-content-view">
+    <div class="diary-content-view fixed-pane">
 
-      <div id="note-navbar" class="navbar  bg-faded-5"  ng-show="vm.note">
-          <div class="navbar-header">
-            <div class="navbar-text">{{vm.note.time | amDateFormat:'dddd, MMM Do YYYY  h:mma'}}</div>
-          </div>
-          <ul class="nav navbar-nav navbar-right padding-md-right">
-            <li><span class="navbar-text">SHARE</span></li>
+      <div id="" class="header-bar" ng-show="vm.note">
+        <div class="buttons left">
 
-          </ul>
+        </div>
+        <h1 class="title">
+          {{vm.note.time | amDateFormat:'dddd, MMM Do YYYY  h:mma'}}
+        </h1>
+        <div class="buttons right">
+          <a href="" class="btn btn-clear"><i class="ion-ios-upload-outline"></i> Share</a>
+        </div>
       </div>
+
+
 
       <div class="scroll-pane has-header bg-faded-10" id="note-view" ng-show="vm.note">
         <div class="bg-white box-shadow hairline-all margin-xl">

@@ -1,0 +1,80 @@
+<style type="text/css">
+	/**
+   *  Need to include custom CSS in this module, add it here.
+   */
+
+
+
+	.related-trackers .list-group-item {
+		padding: 10px 3px;
+		border-left: none;
+		border-right: none;
+	}
+</style>
+
+<div class="WhenIModule">
+
+	<!-- Module Header -->
+	<div class="module-header navbar navbar-default">
+		<div class="navbar-header hairline-right">
+			<div class="title navbar-text">TRACKER RESEARCH</div>
+		</div>
+		<div class="navbar-form">
+			<input type="text" ng-model="vm.searchTerm" class="margin-md-left hairline-off bg-faded-5 padding-md-left padding-md-right input-sm form-control rounded" placeholder="Search Trackers..." name="srch-term" id="srch-term">
+			<i class="ion-ios-search" style="position:relative; right:25px;"></i>
+		</div>
+	</div>
+	<!--/.module-header -->
+
+	<!-- Module Main Content -->
+	<div class="fixed fixed-2-8">
+		<div class="tracker-detail-sidebar fixed-pane">
+			<div class="scroll-pane ">
+				<ul class="list-group bg-white">
+					<li ng-hide="vm.trackerArray.length" class=" padding-lg text-center">
+						No Trackers Found
+					</li>
+					<li class="list-group-item tracker-item" ng-repeat="tracker in vm.trackerArray | orderBy : '-label' | filter : vm.searchTerm" ng-click="vm.selectTracker(tracker)" ng-show="tracker.label" ng-class="{ 'active' : vm.selectedTracker == tracker }">
+						<i class="text-lg pull-left margin-md-right nomie-icon-md nomie-icon {{tracker.icon}}" style="color:{{tracker.color}}"></i>
+						<h4 class="list-group-item-heading">{{tracker.label}}</h4>
+					</li>
+				</ul>
+			</div>
+		</div>
+		<div class="tracker-detail-content-view fixed-pane">
+
+
+			<div class="scroll-pane" id="note-view" ng-show="vm.selectedTracker">
+
+
+				<div class=" text-faded bg-faded-5 border-radius padding-sm">
+					Remember: Just because they are related doesn't mean one causes the other. Aka: Correlation does not equal causation. This module is
+					<strong>highly experimental</strong> and needs to be worked on by someone smarter than myself.
+				</div>
+<!--
+				<div class="padding-sm-top padding-sm-left bg-faded-5">
+					<ul class="nav nav-tabs">
+						<li role="presentation" class="active"><a href="#">Same Day</a></li>
+						<li class="disabled" role="presentation"><a disabled="disabled">Next Day</a></li>
+					</ul>
+				</div> -->
+
+        <div class="padding-md">
+          <h1 class="text-md"><strong>{{vm.selectedTracker.label}}</strong> Day and Time</h1>
+          <timegrid timedata="vm.selectedTracker.stats.events" color="{{vm.selectedTracker.color}}" height="200" timekey="time"></timegrid>
+        </div>
+        <div class="padding-off hairline-top hairline-bottom margin-md-top margin-md-bottom">
+          <eventmap events="vm.selectedTracker.stats.events" heatmap="true">
+
+          </eventmap>
+        </div>
+
+				<!-- end padding-md-->
+			</div>
+			<!--/#tracker-detail-view -->
+
+		</div>
+	</div>
+	<!--/.main-content-->
+
+</div>

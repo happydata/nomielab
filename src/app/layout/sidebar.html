@@ -1,16 +1,19 @@
 <div class="sidebar" id="sidebar">
   <div class="list-group" ng-hide="!$root.currentDatasource">
-    <a href="/#/overview" class="list-group-item" ng-class="$root.getClass('/overview')">
-      <i class="ion-ios-analytics-outline text-faded margin-sm-right"></i> Data Overview
+    <a href="/#/dashboard" class="list-group-item" ng-class="$root.getClass('/dashboard')">
+      <i class="ion-ios-analytics-outline text-faded margin-sm-right"></i> <label>Dashboard</label>
     </a>
-    <a href="/#/mapme" class="list-group-item" ng-class="$root.getClass('/mapme')">
-      <i class="ion-map text-faded margin-sm-right"></i> Map Me
+    <a href="/#/locations" class="list-group-item" ng-class="$root.getClass('/locations')">
+      <i class="ion-ios-navigate-outline text-faded margin-sm-right"></i> <label>Locations</label>
     </a>
-    <a href="/#/diary" class="list-group-item" ng-class="$root.getClass('/diary')">
-      <i class="ion-ios-bookmarks-outline text-faded margin-sm-right"></i> Dear Diary
+    <a href="/#/notes" class="list-group-item" ng-class="$root.getClass('/notes')">
+      <i class="ion-ios-bookmarks-outline text-faded margin-sm-right"></i> <label>Notes</label>
     </a>
-    <a href="/#/when" class="list-group-item" ng-class="$root.getClass('/when')">
-      <i class="ion-ios-clock-outline text-faded margin-sm-right"></i> When I Do...
+    <a href="/#/tracker-detail" class="list-group-item" ng-class="$root.getClass('/tracker-detail')">
+      <i class="ion-ios-keypad-outline text-faded margin-sm-right"></i> <label>Tracker Detail</label>
+    </a>
+    <a href="/#/compare" class="list-group-item" ng-class="$root.getClass('/compare')">
+      <i class="ion-ios-pulse text-faded margin-sm-right"></i> <label>Compare</label>
     </a>
   </div>
   <div class="padding-lg text-inverse text-center text-lg text-thin" ng-show="!$root.currentDatasource">

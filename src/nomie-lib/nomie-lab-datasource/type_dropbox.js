@@ -73,7 +73,7 @@ var NomieLabDatasourceDropbox = function(options) {
    * @param  {Function} callback Callback(err, data)
    */
   pub.getEvents = function(options, callback) {
-    callback(null, pvt.data.ticks);
+    callback(null, pvt.data.events);
   }
 
   /**
